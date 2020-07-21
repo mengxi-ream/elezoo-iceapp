@@ -1,16 +1,11 @@
 import { request, history } from 'ice';
 
-export const getToken = ({ account, password }) => {
-  console.log('----------1-----');
+export const createUser = (info) => {
   return request
-    .post('/user/access/login', { account, password })
+    .post('/user/signup', info)
     .then((res) => {
-      // now we get the token
-      // const token = res.data;
-      const token = res;
       // we can store the token in localStorage for later use
-      console.log(token);
-      // localStorage.setItem('jwt-token', token);
+      console.log(res);
       // history.push('/');
       return true;
     })

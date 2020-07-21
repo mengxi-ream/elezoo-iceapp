@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Message, Form } from '@alifd/next';
 import SubmitBtn from '@/components/submitBtn';
-// import { getToken } from './utils';
+import { createUser } from './utils';
 import styles from './index.module.scss';
 
 const { Item } = Form;
+
 export default function RegisterBlock() {
   const [postData, setValue] = useState({
+    userName: '',
     email: '',
     password: '',
     rePassword: '',
-    phone: '',
-    code: '',
   });
 
+  //及时更新，保证 checkPass 函数正常运行
   const formChange = (value) => {
     setValue(value);
   };
@@ -26,14 +27,17 @@ export default function RegisterBlock() {
     return callback();
   };
 
-  const handleSubmit = (values, errors) => {
+  const handleSubmit = async (values, errors) => {
     if (errors) {
       console.log('errors', errors);
+      Message.error('注册失败');
       return;
     }
 
     console.log('values:', values);
-    Message.success('注册成功');
+    (await createUser(values))
+      ? Message.success('注册成功')
+      : Message.error('注册失败');
   };
 
   return (
