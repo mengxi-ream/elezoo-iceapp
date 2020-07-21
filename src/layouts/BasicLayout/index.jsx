@@ -3,6 +3,7 @@ import { Shell, ConfigProvider, Search } from '@alifd/next';
 import PageNav from './components/PageNav';
 import Logo from './components/Logo';
 import Footer from './components/Footer';
+import './index.css';
 
 (function () {
   const throttle = function (type, name, obj = window) {
