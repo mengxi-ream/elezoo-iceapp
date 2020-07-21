@@ -1,18 +1,26 @@
-.logo{
+@import '~@alifd/next/variables.scss';
+
+.logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $color-text1-1;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 22px;
+  // font-weight: bold;
+  font-size: $font-size-headline;
+  color: $color-text1-4;
+  line-height: 24px;
 
-  &:visited, &:link {
-    color: $color-text1-1;
+  // & 是 scss 语法，代表上一级的选择器 logo，也可以看成 this.
+  &:visited,
+  &:active {
+    text-decoration: none;
+  }
+
+  .name {
+    color: $color-brand1-6;
   }
 
   img {
-    height: 24px;
+    height: $s-6;
     margin-right: 10px;
   }
 }

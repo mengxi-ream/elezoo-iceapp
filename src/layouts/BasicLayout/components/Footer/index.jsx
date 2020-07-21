@@ -4,9 +4,11 @@ import styles from './index.module.scss';
 export default function Footer() {
   return (
     <p className={styles.footer}>
-      <span className={styles.logo}>Alibaba Fusion</span>
+      <span className={styles.logo}>Elezoo</span>
       <br />
-      <span className={styles.copyright}>© 2019-现在 Alibaba Fusion & ICE</span>
+      <span className={styles.copyright}>
+        © 2020-Now Created By Kuiliang Zhang
+      </span>
     </p>
   );
 }
