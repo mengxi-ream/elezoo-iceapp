@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Message, Form } from '@alifd/next';
 import SubmitBtn from '@/components/submitBtn';
-import { useInterval } from './utils';
+// import { getToken } from './utils';
 import styles from './index.module.scss';
 
 const { Item } = Form;
@@ -47,23 +47,33 @@ export default function RegisterBlock() {
         <div className={styles.subtitle}>注册账号</div>
 
         <Form value={postData} onChange={formChange} size="large">
-          <Item required requiredMessage="必填">
+          <Item
+            hasFeedback
+            required
+            requiredMessage="必填"
+            minLength={2}
+            maxLength={15}
+            pattern={/^[a-zA-Z\u4E00-\u9FA5][a-zA-Z0-9\u4E00-\u9FA5_-]{1,14}$/}
+            patternMessage="必须以英文字母或汉字开头，特殊字符仅允许下划线和减号"
+          >
             <Input
               name="userName"
               size="large"
-              maxLength={20}
+              maxLength={15}
               placeholder="用户名"
             />
           </Item>
-          <Item format="email" required requiredMessage="必填">
-            <Input
-              name="email"
-              size="large"
-              maxLength={20}
-              placeholder="邮箱"
-            />
+          <Item format="email" hasFeedback required requiredMessage="必填">
+            <Input name="email" size="large" placeholder="邮箱" />
           </Item>
-          <Item required requiredMessage="必填">
+          <Item
+            required
+            requiredMessage="必填"
+            minLength={6}
+            maxLength={20}
+            pattern={/^.*(?=.{6,})(?=.*\d)(?=.*[a-zA-Z]).*$/}
+            patternMessage="必须同时含有英文和数字"
+          >
             <Input.Password
               name="password"
               size="large"
@@ -99,7 +109,7 @@ export default function RegisterBlock() {
               textAlign: 'center',
             }}
           >
-            <a href="/" className={styles.link}>
+            <a href="/#/user/login" className={styles.link}>
               使用已有账号登录
             </a>
           </Item>

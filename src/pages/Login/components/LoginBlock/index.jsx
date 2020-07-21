@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Input, Message, Form } from '@alifd/next';
 import SubmitBtn from '@/components/submitBtn';
-import { useInterval } from './utils';
+import { getToken } from './utils';
 import styles from './index.module.scss';
 
 const { Item } = Form;
 const DEFAULT_DATA = {
-  name: '',
+  account: '',
   password: '',
 };
 
@@ -14,14 +14,17 @@ const LoginBlock = (props) => {
   const { dataSource = DEFAULT_DATA } = props;
   const [postData, setValue] = useState(dataSource);
 
-  const handleSubmit = (values, errors) => {
+  const handleSubmit = async (values, errors) => {
     if (errors) {
       console.log('errors', errors);
+      Message.error('登录失败');
       return;
     }
 
     console.log('values:', values);
-    Message.success('登录成功');
+    (await getToken(values))
+      ? Message.success('登录成功')
+      : Message.error('登录失败');
   };
 
   return (
@@ -36,7 +39,7 @@ const LoginBlock = (props) => {
 
         <Form value={postData} size="large">
           <Item required requiredMessage="必填">
-            <Input name="name" maxLength={20} placeholder="用户名或邮箱" />
+            <Input name="account" placeholder="用户名或邮箱" />
           </Item>
           <Item required requiredMessage="必填">
             <Input.Password
@@ -59,7 +62,7 @@ const LoginBlock = (props) => {
             <a href="/" className={styles.link}>
               忘记密码
             </a>
-            <a href="/" className={styles.link}>
+            <a href="/#/user/register" className={styles.link}>
               注册账号
             </a>
           </p>
