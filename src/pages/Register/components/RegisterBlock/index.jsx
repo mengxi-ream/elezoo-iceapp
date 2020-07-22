@@ -67,7 +67,13 @@ export default function RegisterBlock() {
               placeholder="用户名"
             />
           </Item>
-          <Item format="email" hasFeedback required requiredMessage="必填">
+          <Item
+            format="email"
+            hasFeedback
+            required
+            requiredMessage="必填"
+            maxLength={30}
+          >
             <Input name="email" size="large" placeholder="邮箱" />
           </Item>
           <Item

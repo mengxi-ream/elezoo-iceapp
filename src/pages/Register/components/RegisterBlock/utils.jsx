@@ -2,7 +2,7 @@ import { request, history } from 'ice';
 
 export const createUser = (info) => {
   return request
-    .post('/user/signup', info)
+    .post('/user/create', info)
     .then((res) => {
       // we can store the token in localStorage for later use
       console.log(res);
