@@ -3,7 +3,7 @@ import { useRequest, store, history } from 'ice';
 // import loginService from '@/pages/Login/services/login';
 import userService from '@/services/user';
 import { Input, Message, Form } from '@alifd/next';
-import SubmitBtn from '@/components/submitBtn';
+import SubmitBtn from '@/components/SubmitBtn';
 import styles from './index.module.scss';
 
 const { Item } = Form;

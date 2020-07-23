@@ -1,0 +1,15 @@
+@import '~@alifd/next/variables.scss';
+
+.customTab {
+  .customTabHead {
+    display: flex;
+    justify-content: center;
+    margin-top: -$shell-dark-content-paddingTop;
+    margin-right: -$shell-dark-content-paddingLeft;
+    margin-bottom: 20px;
+    margin-left: -$shell-dark-content-paddingLeft;
+    padding: 0 $shell-dark-content-paddingLeft;
+    // padding-bottom: 0;
+    background: $color-white;
+  }
+}

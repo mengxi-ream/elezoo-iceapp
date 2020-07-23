@@ -1,0 +1,32 @@
+@import '~@alifd/next/variables.scss';
+
+.SettingPageBlock {
+  max-width: 568px;
+  min-width: 280px;
+  min-height: 460px;
+  margin: $s-10 auto;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.changeLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// .changeLogo p {
+//   margin: 0;
+//   color: rgba(0, 0, 0, 0.5);
+//   font-size: 12px;
+//   line-height: 18px;
+//   letter-spacing: 0;
+// }
+
+.changeLogoBox {
+  margin: $s-1;
+}

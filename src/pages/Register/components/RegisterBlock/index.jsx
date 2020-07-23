@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useRequest, store, history } from 'ice';
 import PropTypes from 'prop-types';
 import { Input, Message, Form } from '@alifd/next';
-import SubmitBtn from '@/components/submitBtn';
-// import { createUser } from './utils';
+import SubmitBtn from '@/components/SubmitBtn';
 import userService from '@/services/user';
 import styles from './index.module.scss';
 
@@ -65,9 +64,6 @@ export default function RegisterBlock() {
 
     console.log('values:', values);
     request(values);
-    // (await createUser(values))
-    //   ? Message.success('注册成功')
-    //   : Message.error('注册失败');
   };
 
   return (

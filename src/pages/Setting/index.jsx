@@ -4,7 +4,7 @@ import SettingBlock from './components/SettingBlock';
 
 const { Cell } = ResponsiveGrid;
 
-const Register = () => (
+const Setting = () => (
   <ResponsiveGrid gap={20}>
     <Cell colSpan={12}>
       <SettingBlock />
@@ -12,4 +12,4 @@ const Register = () => (
   </ResponsiveGrid>
 );
 
-export default Register;
+export default Setting;

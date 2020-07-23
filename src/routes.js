@@ -29,12 +29,12 @@ const routerConfig = [
     component: BasicLayout,
     children: [
       {
-        path: '/',
-        component: Dashboard,
+        path: '/setting',
+        component: Setting,
       },
       {
-        path: 'setting',
-        component: Setting,
+        path: '/',
+        component: Dashboard,
       },
     ],
   },

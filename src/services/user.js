@@ -22,4 +22,12 @@ export default {
       data: info,
     });
   },
+
+  async updatePsw({ oldPassword, password }) {
+    return await request({
+      url: '/user/password',
+      method: 'put',
+      data: { oldPassword, password },
+    });
+  },
 };
