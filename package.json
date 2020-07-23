@@ -4,8 +4,12 @@
   "description": "轻量级模板，使用 JavaScript，仅包含基础的 Layout。",
   "dependencies": {
     "@alifd/next": "^1.19.4",
+    "@alifd/theme-1": "^0.3.1",
+    "@alifd/theme-2": "^0.2.1",
+    "@alifd/theme-4": "^0.3.1",
     "@alifd/theme-design-pro": "^0.x",
     "@alifd/theme-elezoo1": "^0.1.7",
+    "@alifd/theme-ice-green": "^1.1.0",
     "axios": "^0.19.2",
     "moment": "^2.24.0",
     "react": "^16.4.1",

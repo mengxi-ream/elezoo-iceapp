@@ -85,7 +85,7 @@ const UpdatePsw = () => {
           <Form.Item
             colSpan={12}
             style={{
-              marginTop: 16,
+              marginTop: 32,
             }}
           >
             <SubmitBtn
