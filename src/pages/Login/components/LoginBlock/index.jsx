@@ -64,7 +64,11 @@ const LoginBlock = (props) => {
 
         <Form value={postData} size="large">
           <Item required requiredMessage="必填">
-            <Input name="account" placeholder="用户名或邮箱" />
+            <Input
+              // className={styles.customInput}
+              name="account"
+              placeholder="用户名或邮箱"
+            />
           </Item>
           <Item required requiredMessage="必填">
             <Input.Password

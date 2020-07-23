@@ -4,6 +4,7 @@ import PageNav from './components/PageNav';
 import Logo from './components/Logo';
 import Footer from './components/Footer';
 import HeaderAvatar from './components/HeaderAvatar';
+import styles from './index.module.scss';
 
 (function () {
   const throttle = function (type, name, obj = window) {
@@ -57,6 +58,7 @@ export default function BasicLayout({ children }) {
   return (
     <ConfigProvider device={device}>
       <Shell
+        className={styles.shell}
         type="light"
         style={{
           minHeight: '100vh',

@@ -1,7 +1,14 @@
 // 引入默认全局样式
 @import '@alifd/next/reset.scss';
+@import '~@alifd/next/variables.scss';
 
 body {
   -webkit-font-smoothing: antialiased;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  border-radius: $corner-3;
+}
