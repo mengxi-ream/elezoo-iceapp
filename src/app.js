@@ -1,4 +1,4 @@
-import { createApp } from 'ice';
+import { createApp, history } from 'ice';
 
 const appConfig = {
   app: {
@@ -10,7 +10,11 @@ const appConfig = {
     interceptors: {
       request: {
         onConfig: (config) => {
-          if (localStorage.hasOwnProperty('jwt-token') === false) {
+          console.log('config', config);
+          if (
+            localStorage.hasOwnProperty('jwt-token') === false &&
+            config.url !== '/user/create'
+          ) {
             history.push('/user/login');
           }
           config.headers = {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { history, store } from 'ice';
-import { Avatar, Overlay, Menu, Icon } from '@alifd/next';
+import { Avatar, Overlay, Menu, Icon, Divider } from '@alifd/next';
 import styles from './index.module.scss';
 
 const { Item } = Menu;
@@ -12,8 +12,8 @@ const UserProfile = ({ userName, avatar, email }) => (
       <Avatar src={avatar} alt="用户头像" />
     </div>
     <div className={styles.content}>
-      <h4>{userName}</h4>
-      <span>{email}</span>
+      <div className={styles.userName}>{userName}</div>
+      <div className={styles.email}>{email}</div>
     </div>
   </div>
 );
@@ -42,38 +42,40 @@ const HeaderAvatar = (props) => {
       }
       triggerType="click"
     >
-      <div className={styles.avatarPopup}>
+      {/* <div className={styles.avatarPopup}> */}
+      {/* <UserProfile {...userState} /> */}
+      <Menu className={styles.menu}>
         <UserProfile {...userState} />
-        <Menu className={styles.menu}>
-          <Item
-            onClick={() => {
-              history.push('/person');
-            }}
-          >
-            <Icon size="small" type="account" />
-            个人设置
-          </Item>
-          <Item
-            onClick={() => {
-              history.push('/settings');
-            }}
-          >
-            <Icon size="small" type="set" />
-            帮助
-          </Item>
-          <Item
-            onClick={() => {
-              // window.open('/#/user/login');
-              // window.close();
-              localStorage.removeItem('jwt-token');
-              history.push('/user/login');
-            }}
-          >
-            <Icon size="small" type="exit" />
-            退出
-          </Item>
-        </Menu>
-      </div>
+        <Divider style={{ margin: '8px 0' }} />
+        <Item
+          onClick={() => {
+            history.push('/setting');
+          }}
+        >
+          <Icon size="small" type="account" />
+          个人设置
+        </Item>
+        <Item
+          onClick={() => {
+            history.push('/help');
+          }}
+        >
+          <Icon size="small" type="set" />
+          帮助
+        </Item>
+        <Item
+          onClick={() => {
+            // window.open('/#/user/login');
+            // window.close();
+            localStorage.removeItem('jwt-token');
+            history.push('/user/login');
+          }}
+        >
+          <Icon size="small" type="exit" />
+          退出
+        </Item>
+      </Menu>
+      {/* </div> */}
     </Popup>
   );
 };

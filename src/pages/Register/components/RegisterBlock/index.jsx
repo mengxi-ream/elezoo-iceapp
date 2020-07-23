@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useRequest, store, history } from 'ice';
 import PropTypes from 'prop-types';
 import { Input, Message, Form } from '@alifd/next';
 import SubmitBtn from '@/components/submitBtn';
-import { createUser } from './utils';
+// import { createUser } from './utils';
+import userService from '@/services/user';
 import styles from './index.module.scss';
 
 const { Item } = Form;
@@ -13,6 +15,29 @@ export default function RegisterBlock() {
     email: '',
     password: '',
     rePassword: '',
+  });
+  const dispatchers = store.useModelDispatchers('user');
+  const { data, loading, request } = useRequest(userService.createUser, {
+    onSuccess: async (result, params) => {
+      console.log('result:', result);
+      console.log('params:', params[0]);
+      const userInfo = params[0];
+      // 欺骗拦截器不要跳转到 /user/login 界面
+      localStorage.setItem('jwt-token', 'tempToken');
+      const res = await userService.getToken({
+        account: userInfo.userName,
+        password: userInfo.password,
+      });
+      const token = res.token;
+      console.log(token);
+      localStorage.setItem('jwt-token', token);
+      await dispatchers.fetchUserInfo();
+      history.push('/');
+      Message.success('注册成功');
+    },
+    onError: () => {
+      Message.error('注册失败');
+    },
   });
 
   //及时更新，保证 checkPass 函数正常运行
@@ -35,9 +60,10 @@ export default function RegisterBlock() {
     }
 
     console.log('values:', values);
-    (await createUser(values))
-      ? Message.success('注册成功')
-      : Message.error('注册失败');
+    request(values);
+    // (await createUser(values))
+    //   ? Message.success('注册成功')
+    //   : Message.error('注册失败');
   };
 
   return (

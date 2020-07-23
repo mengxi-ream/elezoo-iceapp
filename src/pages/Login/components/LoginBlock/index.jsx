@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useRequest, store, history } from 'ice';
-import loginService from '@/pages/Login/services/login';
+// import loginService from '@/pages/Login/services/login';
+import userService from '@/services/user';
 import { Input, Message, Form } from '@alifd/next';
 import SubmitBtn from '@/components/submitBtn';
 import styles from './index.module.scss';
-
-import axios from 'axios';
 
 const { Item } = Form;
 const DEFAULT_DATA = {
@@ -17,7 +16,7 @@ const LoginBlock = (props) => {
   const { dataSource = DEFAULT_DATA } = props;
   const [postData, setValue] = useState(dataSource);
   const [userState, userDispatchers] = store.useModel('user');
-  const { data, loading, request } = useRequest(loginService.getToken, {
+  const { data, loading, request } = useRequest(userService.getToken, {
     onSuccess: async (result, params) => {
       const token = result.token;
       console.log(token);

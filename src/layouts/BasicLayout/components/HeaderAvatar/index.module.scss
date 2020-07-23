@@ -1,20 +1,14 @@
-.headerAvatar {
-  height: 100%;
-  padding: 10px;
-  cursor: pointer;
-}
+@import '~@alifd/next/variables.scss';
 
-.avatarPopup {
-  min-width: 260px;
-  padding: 4px 0;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+.headerAvatar {
+  // height: 100%;
+  // padding: 10px;
+  cursor: pointer;
 }
 
 .menu {
   line-height: 40px;
-  border: 0;
+  width: 220px;
 
   :global {
     .next-menu-item {
@@ -33,9 +27,9 @@
   display: flex;
   flex: 1 1 auto;
   align-items: flex-start;
-  min-width: 250px;
-  padding: 8px 16px 4px 16px;
-  font-size: 0;
+  width: 220px;
+  height: 48px;
+  padding: 4px 20px 4px 20px;
 }
 
 .avatar {
@@ -44,14 +38,24 @@
 
 .content {
   flex: 1 0 auto;
-  h4 {
+  .userName {
+    width: 128px;
     margin: 0;
+    padding-bottom: 8px;
     font-weight: bold;
-    font-size: 14px;
-    line-height: 22px;
+    font-size: $font-size-subhead;
+    line-height: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
-  span {
+  .email {
+    width: 128px;
     color: $color-text1-3;
-    font-size: 12px;
+    font-size: $font-size-body-1;
+    line-height: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }

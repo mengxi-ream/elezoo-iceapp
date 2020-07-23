@@ -3,6 +3,7 @@ import UserLayout from '@/layouts/UserLayout';
 import Dashboard from '@/pages/Dashboard';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
+import Setting from '@/pages/Setting';
 
 const routerConfig = [
   {
@@ -30,6 +31,10 @@ const routerConfig = [
       {
         path: '/',
         component: Dashboard,
+      },
+      {
+        path: 'setting',
+        component: Setting,
       },
     ],
   },
