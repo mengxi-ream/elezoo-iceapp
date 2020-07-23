@@ -10,7 +10,7 @@ const appConfig = {
     interceptors: {
       request: {
         onConfig: (config) => {
-          console.log('config', config);
+          // console.log('config', config);
           if (
             localStorage.hasOwnProperty('jwt-token') === false &&
             config.url !== '/user/create'

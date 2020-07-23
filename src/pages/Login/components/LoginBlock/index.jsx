@@ -76,6 +76,7 @@ const LoginBlock = (props) => {
           <Item>
             <SubmitBtn
               type="primary"
+              loading={loading}
               onClick={handleSubmit}
               className={styles.submitBtn}
               validate

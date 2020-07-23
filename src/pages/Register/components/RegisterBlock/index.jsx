@@ -19,8 +19,8 @@ export default function RegisterBlock() {
   const dispatchers = store.useModelDispatchers('user');
   const { data, loading, request } = useRequest(userService.createUser, {
     onSuccess: async (result, params) => {
-      console.log('result:', result);
-      console.log('params:', params[0]);
+      // console.log('result:', result);
+      // console.log('params:', params[0]);
       const userInfo = params[0];
       // 欺骗拦截器不要跳转到 /user/login 界面
       localStorage.setItem('jwt-token', 'tempToken');
@@ -35,8 +35,12 @@ export default function RegisterBlock() {
       history.push('/');
       Message.success('注册成功');
     },
-    onError: () => {
-      Message.error('注册失败');
+    onError: (err) => {
+      const result = err.response.data;
+      // console.log('result:', result);
+      result.code === 409
+        ? Message.error(result.message)
+        : Message.error('注册失败');
     },
   });
 
@@ -133,6 +137,7 @@ export default function RegisterBlock() {
           <Item>
             <SubmitBtn
               type="primary"
+              loading={loading}
               onClick={handleSubmit}
               className={styles.submitBtn}
               validate
