@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { store } from 'ice';
+import { useRequest, store } from 'ice';
 import {
   Button,
   Card,
@@ -13,12 +13,23 @@ import {
 } from '@alifd/next';
 import PageTab from '@/components/PageTab';
 import SubmitBtn from '@/components/SubmitBtn';
+import userService from '@/services/user';
 import styles from './index.module.scss';
 
 const { Cell } = ResponsiveGrid;
 
 const UpdateBasic = () => {
   const [userState, userDispatchers] = store.useModel('user');
+  const { data, loading, request } = useRequest(userService.updateBasic, {
+    onSuccess: async (result) => {
+      // console.log('updatedInfo:', result);
+      await userDispatchers.fetchUserInfo();
+      Message.success('更新成功');
+    },
+    onError: () => {
+      Message.error('更新失败');
+    },
+  });
   // const [postData, setValue] = useState({
   //   userName: '',
   //   email: '',
@@ -36,8 +47,21 @@ const UpdateBasic = () => {
       return;
     }
 
+    // remove empty fields then request
+    Object.keys(values).forEach(
+      (key) => values[key] === '' && delete values[key]
+    );
     console.log('values:', values);
-    // request(values);
+    request(values);
+  };
+
+  const uploadSuccess = async (info) => {
+    request({ avatar: info.response.data });
+    // console.log('onSuccess: ', info);
+  };
+
+  const uploadError = () => {
+    Message.error('上传失败');
   };
 
   return (
@@ -45,18 +69,22 @@ const UpdateBasic = () => {
       <Card.Content className={styles.SettingPageBlock}>
         <Form labelAlign="top" responsive>
           <Form.Item label="" colSpan={12}>
-            <ResponsiveGrid gap={10}>
-              <Cell colSpan={6} className={styles.avatar}>
-                <Avatar shape="circle" size={64} src={userState.avatar} />
-              </Cell>
-              <Cell colSpan={6} className={styles.changeLogo}>
-                <Form.Item>
-                  <Upload name="pic">
-                    <Button type="normal">更新头像</Button>
-                  </Upload>
-                </Form.Item>
-              </Cell>
-            </ResponsiveGrid>
+            <div className={styles.avatar}>
+              <Avatar shape="circle" size={64} src={userState.avatar} />
+            </div>
+            <Upload
+              className={styles.changeLogo}
+              action="https://songkeys.top/api/pic"
+              onSuccess={uploadSuccess}
+              onError={uploadError}
+              method="post"
+              name="img"
+              accept="image/png, image/jpg, image/jpeg, image/gif, image/bmp"
+            >
+              <Button loading={loading} type="normal">
+                更新头像
+              </Button>
+            </Upload>
           </Form.Item>
           <Form.Item colSpan={12}>
             <Divider />

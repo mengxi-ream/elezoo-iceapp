@@ -5,6 +5,8 @@
   min-width: 280px;
   min-height: 460px;
   margin: $s-10 auto;
+  padding-left: 32px;
+  padding-right: 32px;
 }
 
 .avatar {
@@ -14,6 +16,7 @@
 }
 
 .changeLogo {
+  margin-top: 16px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -23,6 +23,14 @@ export default {
     });
   },
 
+  async updateBasic(payload) {
+    return await request({
+      url: '/user',
+      method: 'put',
+      data: payload,
+    });
+  },
+
   async updatePsw({ oldPassword, password }) {
     return await request({
       url: '/user/password',
