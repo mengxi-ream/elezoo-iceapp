@@ -1,6 +1,6 @@
 import BasicLayout from '@/layouts/BasicLayout';
 import UserLayout from '@/layouts/UserLayout';
-import Dashboard from '@/pages/Dashboard';
+import Vote from '@/pages/Vote';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import Setting from '@/pages/Setting';
@@ -34,7 +34,7 @@ const routerConfig = [
       },
       {
         path: '/',
-        component: Dashboard,
+        component: Vote,
       },
     ],
   },

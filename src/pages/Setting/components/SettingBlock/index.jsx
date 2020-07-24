@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { store } from 'ice';
 import { Tab } from '@alifd/next';
 import PageTab from '@/components/PageTab';
-import SubmitBtn from '@/components/SubmitBtn';
 import UpdateBasic from './UpdateBasic';
 import UpdatePsw from './UpdatePsw';
-import styles from './index.module.scss';
 
 const SettingBlock = () => {
   return (

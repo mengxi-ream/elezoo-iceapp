@@ -1,15 +1,15 @@
 import React from 'react';
 import { ResponsiveGrid } from '@alifd/next';
-import Guide from './components/Guide';
+import VoteBlock from './components/VoteBlock';
 
 const { Cell } = ResponsiveGrid;
 
-const Dashboard = () => (
+const Vote = () => (
   <ResponsiveGrid gap={20}>
     <Cell colSpan={12}>
-      <Guide />
+      <VoteBlock />
     </Cell>
   </ResponsiveGrid>
 );
 
-export default Dashboard;
+export default Vote;
