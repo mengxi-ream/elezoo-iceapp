@@ -2,8 +2,6 @@
 
 .customTab {
   .customTabHead {
-    display: flex;
-    justify-content: center;
     margin-top: -$shell-dark-content-paddingTop;
     // margin-right: -$shell-dark-content-paddingLeft;
     margin-bottom: 20px;
@@ -13,5 +11,17 @@
     border-top: 1px solid $color-line1-1;
     border-radius: 0px 0px $corner-1 $corner-1;
     background: $color-white;
+    :global {
+      // 由于 next-tabs-nav-scroll 子元素 .next-tabs-nav 是 inline-block
+      // 所以不能用以下代码：
+      // :global {
+      //   .next-tabs-nav {
+      //     margin: 0 auto;
+      //   }
+      // }
+      .next-tabs-nav-scroll {
+        text-align: center;
+      }
+    }
   }
 }
