@@ -30,7 +30,12 @@ const HeaderAvatar = (props) => {
     <Popup
       trigger={
         <div className={styles.headerAvatar}>
-          <Avatar size="small" src={userState.avatar} alt="用户头像" />
+          <Avatar
+            size="small"
+            src={userState.avatar}
+            alt="用户头像"
+            style={{ border: '1px solid #E8E9ED' }}
+          />
           {/* <span
             style={{
               marginLeft: 10,

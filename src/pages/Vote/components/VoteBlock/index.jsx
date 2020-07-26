@@ -7,7 +7,7 @@ import JoinVote from './JoinVote';
 
 const VoteBlock = () => {
   return (
-    <PageTab>
+    <PageTab defaultActiveKey="createVote">
       <Tab.Item title="我的投票" key="myVote">
         <MyVote />
       </Tab.Item>

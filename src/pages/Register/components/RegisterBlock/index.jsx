@@ -91,12 +91,7 @@ export default function RegisterBlock() {
             pattern={/^[a-zA-Z\u4E00-\u9FA5][a-zA-Z0-9\u4E00-\u9FA5_-]{1,14}$/}
             patternMessage="必须以英文字母或汉字开头，特殊字符仅允许下划线和减号"
           >
-            <Input
-              name="userName"
-              size="large"
-              maxLength={15}
-              placeholder="用户名"
-            />
+            <Input name="userName" size="large" placeholder="用户名" />
           </Item>
           <Item
             format="email"

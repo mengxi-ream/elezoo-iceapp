@@ -44,12 +44,6 @@ const LoginBlock = (props) => {
     // console.log('sth:', sth);
     // console.log('data:', data);
     request(values);
-
-    // let testdata = await axios.post(
-    //   'http://127.0.0.1:7001/api/user/login',
-    //   values
-    // );
-    // console.log('testdata:', testdata.data);
   };
 
   return (
