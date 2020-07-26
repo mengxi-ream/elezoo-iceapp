@@ -1,9 +1,13 @@
+@import '~@alifd/next/variables.scss';
+
 .shell {
+  // background-color: $color-brand1-6;
   :global {
     .next-shell-header {
       max-width: 1200px;
       margin: 0 auto;
-      border: 0;
+      border: none;
+      box-shadow: none;
     }
     .next-shell-sub-main {
       max-width: 1200px;
