@@ -53,14 +53,18 @@ const UpdateBasic = () => {
     );
     console.log('values:', values);
     request(values);
+    // let testres = await uploadService.pic();
+    // console.log('testres:', testres);
   };
 
   const uploadSuccess = async (info) => {
-    request({ avatar: info.response.data });
+    const { url: avatar, urlBackup: avatarBackup } = info.response.data;
+    console.log({ avatar, avatarBackup });
+    request({ avatar, avatarBackup });
     // console.log('onSuccess: ', info);
   };
 
-  const uploadError = () => {
+  const uploadError = (err) => {
     Message.error('上传失败');
   };
 
@@ -74,12 +78,14 @@ const UpdateBasic = () => {
             </div>
             <Upload
               className={styles.changeLogo}
-              action="https://songkeys.top/api/pic"
+              action="http://127.0.0.1:7001/api/pic/stream"
               onSuccess={uploadSuccess}
               onError={uploadError}
               method="post"
+              data={{ backup: true }}
+              // request={uploadService.pic}
               name="img"
-              accept="image/png, image/jpg, image/jpeg, image/gif, image/bmp"
+              accept="image/png, image/jpg, image/jpeg"
             >
               <Button loading={loading} type="normal">
                 更新头像
@@ -121,6 +127,7 @@ const UpdateBasic = () => {
           >
             <SubmitBtn
               type="primary"
+              loading={loading}
               validate
               onClick={handleSubmit}
               style={{ display: 'block', margin: '0 auto' }}

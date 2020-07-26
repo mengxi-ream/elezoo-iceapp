@@ -69,7 +69,12 @@ export default function RegisterBlock() {
   return (
     <div className={styles.RegisterBlock}>
       <div className={styles.innerBlock}>
-        <div className={styles.title}>Elezoo</div>
+        {/* <div className={styles.title}>Elezoo</div> */}
+        <img
+          className={styles.title}
+          src="/public/logo/textlogo.png"
+          alt="logo"
+        />
         <div className={styles.explain}>
           在 Elezoo
           这个平台，任何小组可以发起倡议性投票，即投票参与人可以对投票选项进行提议。

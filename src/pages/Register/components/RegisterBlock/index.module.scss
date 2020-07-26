@@ -24,10 +24,14 @@
 }
 
 .title {
-  color: $color-brand1-6;
-  font-size: $font-size-display-3;
+  // color: $color-brand1-6;
+  // font-size: $font-size-display-3;
+  // text-align: center;
+  // margin: 16px auto;
+  display: block;
+  height: $s-16;
   text-align: center;
-  margin: 16px auto;
+  margin: 24px auto;
 }
 
 .explain {

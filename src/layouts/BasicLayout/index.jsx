@@ -65,7 +65,7 @@ export default function BasicLayout({ children }) {
         }}
       >
         <Shell.Branding>
-          <Logo image="/public/favicon.png" text="Elezoo" />
+          <Logo image="/public/logo/textlogo.png" />
         </Shell.Branding>
         <Shell.Navigation
           direction="hoz"

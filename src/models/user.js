@@ -1,5 +1,6 @@
-import { IRootDispatch } from 'ice';
+import { IRootDispatch, request } from 'ice';
 import userServices from '@/services/user';
+// import axios from 'axios';
 
 export default {
   state: {
@@ -19,7 +20,6 @@ export default {
   effects: (dispatch) => ({
     async fetchUserInfo() {
       const data = await userServices.getCurrentUser();
-      //this.update(data)
       dispatch.user.update(data);
     },
   }),
