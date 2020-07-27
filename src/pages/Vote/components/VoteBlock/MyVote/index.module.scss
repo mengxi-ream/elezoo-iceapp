@@ -1,10 +1,28 @@
 @import '~@alifd/next/variables.scss';
 
-.SettingPageBlock {
+.pageBlock {
   max-width: 568px;
   min-width: 280px;
   min-height: 460px;
   margin: $s-10 auto;
-  padding-left: 32px;
-  padding-right: 32px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 180px;
+  margin-bottom: 36px;
+  box-shadow: 0px 2px 8px #e2e2e2;
+}
+
+.card:last-child {
+  margin-bottom: 0;
+}
+
+.cardMedia {
+  width: 180px;
+  height: 180px;
 }

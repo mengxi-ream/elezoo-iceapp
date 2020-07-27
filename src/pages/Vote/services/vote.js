@@ -9,4 +9,9 @@ export default {
       data: payload,
     });
   },
+  async getVotes() {
+    return await request({
+      url: '/vote',
+    });
+  },
 };

@@ -61,8 +61,9 @@ const CreateVote = () => {
       Message.success('创建成功');
     },
     onError: (err) => {
-      console.log(err.response);
-      Message.error(err.response.data.message);
+      err.response.data
+        ? Message.error(err.response.data.message)
+        : Message.error('创建失败');
     },
   });
 
