@@ -13,6 +13,7 @@ import {
   Message,
   Loading,
   Icon,
+  Tag,
 } from '@alifd/next';
 import PageTab from '@/components/PageTab';
 import SubmitBtn from '@/components/SubmitBtn';
@@ -21,6 +22,12 @@ import styles from './index.module.scss';
 import vote from '@/pages/Vote/services/vote';
 
 const { Cell } = ResponsiveGrid;
+const periods = {
+  notStarted: { label: '未开始', color: 'blue' },
+  proposing: { label: '提议中', color: 'green' },
+  voting: { label: '投票中', color: 'orange' },
+  end: { label: '已结束', color: '#E2E4E8' },
+};
 
 const MyVote = () => {
   const [voteState, voteDispatchers] = pageStore.useModel('vote');
@@ -58,31 +65,55 @@ const MyVote = () => {
                 <Card.Media className={styles.cardMedia}>
                   <img
                     className={styles.cardMedia}
-                    src="https://i0.wp.com/img.fsbus.com/wp-content/uploads/2017/01/135333C5b.jpg?w=1440"
+                    src={item.cover ? item.cover : 'public/logo/defaultBG.png'}
                   />
                 </Card.Media>
                 <div className={styles.cardMain}>
                   <Card.Header
-                    title="Simple Card"
+                    title={item.title}
                     extra={
                       <Icon
                         type="upload"
                         size="small"
-                        onClick={() => {
+                        role="button"
+                        aria-label="icon share"
+                        onClick={(e) => {
                           console.log('click icon');
+                          // 首先 icon 的 z-index 本身就比 card 高
+                          // 我们先触发 icon 的 onclick 之后直接 stopPropagation 就可以防止触发 card 的 onclick
+                          e.stopPropagation();
                         }}
-                        style={{ zIndex: 3 }}
                       />
                     }
                   />
                   <Card.Content>
-                    <div>
-                      Lorem ipsum dolor sit amet, est viderer iuvaret perfecto
-                      et. Ne petentium quaerendum nec, eos ex recteque
-                      mediocritatem, ex usu assum legendos temporibus. Ius
-                      feugiat pertinacia an, cu verterem praesent quo.
+                    <div className={styles.tag}>
+                      <Tag type="primary" color="blue" size="small">
+                        未开始
+                      </Tag>
+                      {item.pricacyOption === 'anonymity' ? (
+                        <img
+                          src="public/icon/anonymously.png"
+                          className={styles.privacyOption}
+                        />
+                      ) : (
+                        <Avatar
+                          className={styles.privacyOption}
+                          src={item.ownerAvatar}
+                        />
+                      )}
                     </div>
-                    <div>Casper Rudd</div>
+                    <div className={styles.detail}>{item.detail}</div>
+                    <div className={styles.time}>
+                      <div className={styles.timeItem}>
+                        <span className={styles.timeUnder}>提议截止</span>：
+                        {item.voteStart ? item.voteStart.slice(0, 10) : '待定'}
+                      </div>{' '}
+                      <div className={styles.timeItem}>
+                        <span className={styles.timeUnder}>投票截止</span>：
+                        {item.voteEnd ? item.voteEnd.slice(0, 10) : '待定'}
+                      </div>
+                    </div>
                   </Card.Content>
                 </div>
               </Card>

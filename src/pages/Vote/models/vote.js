@@ -1,5 +1,6 @@
 import { IRootDispatch, request } from 'ice';
-import voteServices from '@/pages/Vote/services/vote';
+import userService from '@/services/user';
+import voteService from '@/pages/Vote/services/vote';
 
 export default {
   state: {
@@ -28,7 +29,7 @@ export default {
       this.changeFetchTrigger();
     },
     async fetchVotes(data) {
-      // const data = await voteServices.getVotes();
+      // const data = await voteService.getVotes();
       this.update({ items: data });
     },
   }),
