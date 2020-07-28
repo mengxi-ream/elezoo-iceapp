@@ -9,7 +9,7 @@ const { Popup } = Overlay;
 const UserProfile = ({ userName, avatar, email }) => (
   <div className={styles.profile}>
     <div className={styles.avatar}>
-      <Avatar src={avatar} alt="用户头像" />
+      <Avatar src={avatar} alt="用户头像" size="large" />
     </div>
     <div className={styles.content}>
       <div className={styles.userName}>{userName}</div>
@@ -31,7 +31,6 @@ const HeaderAvatar = (props) => {
       trigger={
         <div className={styles.headerAvatar}>
           <Avatar
-            size="small"
             src={userState.avatar}
             alt="用户头像"
             style={{ border: '1px solid #E8E9ED' }}

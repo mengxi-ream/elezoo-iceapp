@@ -225,7 +225,7 @@ const CreateVote = () => {
           <Form.Item
             colSpan={12}
             label="标题"
-            maxLength={15}
+            maxLength={20}
             required
             requiredMessage="必填"
           >

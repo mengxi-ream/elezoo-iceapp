@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRequest } from 'ice';
+import { useRequest, useHistory } from 'ice';
 import { store as pageStore } from 'ice/Vote';
 import {
   Button,
@@ -22,12 +22,6 @@ import styles from './index.module.scss';
 import vote from '@/pages/Vote/services/vote';
 
 const { Cell } = ResponsiveGrid;
-const periods = {
-  notStarted: { label: '未开始', color: 'blue' },
-  proposing: { label: '提议中', color: 'green' },
-  voting: { label: '投票中', color: 'orange' },
-  end: { label: '已结束', color: '#E2E4E8' },
-};
 const periodLabels = {
   notStarted: '未开始',
   proposing: '提议中',
@@ -58,11 +52,12 @@ const MyVote = () => {
     return 'desktop';
   };
 
+  const history = useHistory();
   const [voteState, voteDispatchers] = pageStore.useModel('vote');
   const [device, setDevice] = useState(getDevice(NaN));
   const { data, loading, request } = useRequest(voteService.getVotes, {
     onSuccess: async (result) => {
-      // console.log(result);
+      console.log(result);
       await voteDispatchers.fetchVotes(result);
       // Message.success('加载成功');
     },
@@ -96,6 +91,7 @@ const MyVote = () => {
                 free
                 key={item._id}
                 onClick={() => {
+                  history.push(`/vote/propose/${item._id}`);
                   console.log('click card');
                 }}
               >

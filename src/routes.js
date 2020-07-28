@@ -4,6 +4,7 @@ import Vote from '@/pages/Vote';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import Setting from '@/pages/Setting';
+import VotePropose from '@/pages/VotePropose';
 
 const routerConfig = [
   {
@@ -23,6 +24,11 @@ const routerConfig = [
         redirect: '/user/login',
       },
     ],
+  },
+  {
+    path: '/vote',
+    component: BasicLayout,
+    children: [{ path: '/propose/:id', exact: true, component: VotePropose }],
   },
   {
     path: '/',

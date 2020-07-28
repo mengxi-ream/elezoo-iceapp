@@ -1,0 +1,31 @@
+@import '~@alifd/next/variables.scss';
+
+.tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  .toolButton {
+    margin-left: 20px;
+  }
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: $font-size-title;
+  color: $color-brand1-6;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.detail {
+  margin-bottom: 11px;
+}
+
+.infoLine {
+  line-height: 31px;
+}
+
+.under {
+  border-bottom: 2px solid $color-brand1-1;
+}
