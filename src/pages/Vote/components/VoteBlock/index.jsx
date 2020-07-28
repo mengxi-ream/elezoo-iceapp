@@ -9,13 +9,16 @@ import JoinVote from './JoinVote';
 const VoteBlock = () => {
   const [voteState, voteDispatchers] = pageStore.useModel('vote');
 
+  const clickMyVote = async () => {
+    if (voteState.submit) {
+      await voteDispatchers.changeFetchTrigger();
+      await voteDispatchers.changeSubmit(false);
+    }
+  };
+
   return (
     <PageTab>
-      <Tab.Item
-        title="我的投票"
-        key="myVote"
-        onClick={voteDispatchers.changeFetchTrigger}
-      >
+      <Tab.Item title="我的投票" key="myVote" onClick={clickMyVote}>
         <MyVote />
       </Tab.Item>
       <Tab.Item title="创建投票" key="createVote">

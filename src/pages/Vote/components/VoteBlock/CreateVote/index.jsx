@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { useRequest, store } from 'ice';
+import { store as pageStore } from 'ice/Vote';
 import {
   Button,
   Card,
@@ -54,10 +55,18 @@ const CreateVote = () => {
     showProposer: 'false',
   });
   const [picData, setPicData] = useState();
+  const [voteState, voteDispatchers] = pageStore.useModel('vote');
   const { data, loading, request } = useRequest(voteService.createVote, {
     onSuccess: async (result) => {
       // console.log('updatedInfo:', result);
       console.log(result);
+      await voteDispatchers.changeSubmit(true);
+      setValue({
+        title: undefined,
+        detail: undefined,
+        privacyOption: 'realName',
+        showProposer: 'false',
+      });
       Message.success('创建成功');
     },
     onError: (err) => {
@@ -101,7 +110,7 @@ const CreateVote = () => {
   const disabledDate = function (date, view) {
     switch (view) {
       case 'date':
-        return date.valueOf() <= currentDate.valueOf();
+        return date.valueOf() < currentDate.valueOf() - 24 * 60 * 60 * 1000;
       case 'year':
         return date.year() < currentDate.year();
       case 'month':

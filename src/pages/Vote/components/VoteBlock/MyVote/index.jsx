@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRequest } from 'ice';
 import { store as pageStore } from 'ice/Vote';
 import {
@@ -28,12 +28,41 @@ const periods = {
   voting: { label: '投票中', color: 'orange' },
   end: { label: '已结束', color: '#E2E4E8' },
 };
+const periodLabels = {
+  notStarted: '未开始',
+  proposing: '提议中',
+  voting: '投票中',
+  end: '已结束',
+};
+const periodColors = {
+  notStarted: 'blue',
+  proposing: 'green',
+  voting: 'orange',
+  end: '#E2E4E8',
+};
 
 const MyVote = () => {
+  // get device
+  const getDevice = (width) => {
+    const isPhone =
+      typeof navigator !== 'undefined' &&
+      navigator &&
+      navigator.userAgent.match(/phone/gi);
+
+    if (width < 660 || isPhone) {
+      return 'phone';
+    }
+    if (width < 1280 && width > 660) {
+      return 'tablet';
+    }
+    return 'desktop';
+  };
+
   const [voteState, voteDispatchers] = pageStore.useModel('vote');
+  const [device, setDevice] = useState(getDevice(NaN));
   const { data, loading, request } = useRequest(voteService.getVotes, {
     onSuccess: async (result) => {
-      console.log(result);
+      // console.log(result);
       await voteDispatchers.fetchVotes(result);
       // Message.success('加载成功');
     },
@@ -47,6 +76,14 @@ const MyVote = () => {
   useEffect(() => {
     request();
   }, [voteState.fetchTrigger]);
+
+  // get device
+  if (typeof window !== 'undefined') {
+    window.addEventListener('optimizedResize', (e) => {
+      const deviceWidth = (e && e.target && e.target.innerWidth) || NaN;
+      setDevice(getDevice(deviceWidth));
+    });
+  }
 
   return (
     <Card free>
@@ -88,10 +125,14 @@ const MyVote = () => {
                   />
                   <Card.Content>
                     <div className={styles.tag}>
-                      <Tag type="primary" color="blue" size="small">
-                        未开始
+                      <Tag
+                        type="primary"
+                        color={periodColors[item.period]}
+                        size="small"
+                      >
+                        {periodLabels[item.period]}
                       </Tag>
-                      {item.pricacyOption === 'anonymity' ? (
+                      {item.privacyOption === 'anonymity' ? (
                         <img
                           src="public/icon/anonymously.png"
                           className={styles.privacyOption}
@@ -107,11 +148,19 @@ const MyVote = () => {
                     <div className={styles.time}>
                       <div className={styles.timeItem}>
                         <span className={styles.timeUnder}>提议截止</span>：
-                        {item.voteStart ? item.voteStart.slice(0, 10) : '待定'}
+                        {item.voteStart
+                          ? device === 'phone'
+                            ? item.voteStart.slice(5, 10)
+                            : item.voteStart.slice(0, 10)
+                          : '待定'}
                       </div>{' '}
                       <div className={styles.timeItem}>
                         <span className={styles.timeUnder}>投票截止</span>：
-                        {item.voteEnd ? item.voteEnd.slice(0, 10) : '待定'}
+                        {item.voteEnd
+                          ? device === 'phone'
+                            ? item.voteEnd.slice(5, 10)
+                            : item.voteEnd.slice(0, 10)
+                          : '待定'}
                       </div>
                     </div>
                   </Card.Content>

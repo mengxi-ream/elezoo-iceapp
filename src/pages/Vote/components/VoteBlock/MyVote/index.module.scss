@@ -77,3 +77,9 @@
     border-bottom: 2px solid $color-brand1-1;
   }
 }
+
+@media screen and (max-width: 660px) {
+  .cardMedia {
+    width: 0;
+  }
+}
