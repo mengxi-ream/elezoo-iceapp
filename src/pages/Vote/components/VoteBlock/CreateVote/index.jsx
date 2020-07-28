@@ -64,6 +64,10 @@ const CreateVote = () => {
       setValue({
         title: undefined,
         detail: undefined,
+        cover: undefined,
+        proposeStart: undefined,
+        voteStart: undefined,
+        voteEnd: undefined,
         privacyOption: 'realName',
         showProposer: 'false',
       });

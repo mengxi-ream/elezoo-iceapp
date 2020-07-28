@@ -34,14 +34,20 @@ const VoteInfo = (props) => {
         <div>
           <Icon
             className={styles.toolButton}
+            type="ashbin"
+            role="button"
+            aria-label="icon ashbin"
+            onClick={() => {
+              console.log('click icon');
+            }}
+          />
+          <Icon
+            className={styles.toolButton}
             type="set"
             role="button"
-            aria-label="icon share"
-            onClick={(e) => {
+            aria-label="icon set"
+            onClick={() => {
               console.log('click icon');
-              // 首先 icon 的 z-index 本身就比 card 高
-              // 我们先触发 icon 的 onclick 之后直接 stopPropagation 就可以防止触发 card 的 onclick
-              e.stopPropagation();
             }}
           />
           <Icon
@@ -49,11 +55,8 @@ const VoteInfo = (props) => {
             type="upload"
             role="button"
             aria-label="icon share"
-            onClick={(e) => {
+            onClick={() => {
               console.log('click icon');
-              // 首先 icon 的 z-index 本身就比 card 高
-              // 我们先触发 icon 的 onclick 之后直接 stopPropagation 就可以防止触发 card 的 onclick
-              e.stopPropagation();
             }}
           />
         </div>

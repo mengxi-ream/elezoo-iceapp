@@ -6,7 +6,11 @@
   justify-content: space-between;
   width: 100%;
   .toolButton {
-    margin-left: 20px;
+    margin-left: 28px;
+    cursor: pointer;
+  }
+  .toolButton:hover {
+    color: $color-brand1-6;
   }
   margin-bottom: 16px;
 }
