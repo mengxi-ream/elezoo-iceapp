@@ -1,0 +1,81 @@
+@import '~@alifd/next/variables.scss';
+
+.votePageBlock {
+  max-width: 720px;
+  min-width: 280px;
+  // min-height: 612px;
+  margin: $s-10 auto;
+  padding-left: 32px;
+  padding-right: 32px;
+  :global {
+    .next-loading {
+      width: 100%;
+    }
+  }
+}
+
+.middleBlock {
+  height: 56px;
+  width: 100%;
+}
+
+.btnGroup {
+  display: flex;
+}
+
+.itemBlock {
+  display: flex;
+  .index {
+    color: $color-brand1-6;
+    width: 30px;
+    height: 24px;
+    text-align: center;
+    margin: 8px auto;
+  }
+  .blockRight {
+    flex: 1;
+  }
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  font-size: $font-size-body-2;
+  margin: 8px 0;
+}
+
+.itemLeft {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  .content {
+    text-align: left;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.itemRight {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 16px;
+  color: $color-brand1-6;
+  .proposer {
+    width: 24px;
+    height: 24px;
+  }
+  .percent {
+    width: 36px;
+    height: 24px;
+    margin-left: 8px;
+  }
+}
+
+.supporterAvatar {
+  margin: 0 4px 4px 0;
+}

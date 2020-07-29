@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRequest, useParams, store } from 'ice';
+import { useRequest, useParams, store, useHistory } from 'ice';
 import {
   Button,
   Card,
@@ -18,7 +18,6 @@ import {
 } from '@alifd/next';
 import VoteInfo from '@/components/VoteInfo';
 import voteDetailService from '@/services/voteDetail';
-import SubmitButton from '@/components/SubmitBtn';
 import styles from './index.module.scss';
 import vote from '@/pages/Vote/services/vote';
 
@@ -44,18 +43,38 @@ const privacyLabels = {
 
 const VoteProposeBlock = () => {
   const { id } = useParams();
+  const history = useHistory();
   const [newProposal, setProposal] = useState('');
+  const [userState, userDispatchers] = store.useModel('user');
   const [voteState, voteDispatchers] = store.useModel('voteDetail');
   const { data, loading, request } = useRequest(voteDetailService.getVote, {
     onSuccess: async (result) => {
       console.log(result);
       await voteDispatchers.fetchVote(result);
+      if (result.period !== 'proposing')
+        history.push(`/vote/${result.period}/${result._id}`);
       // Message.success('加载成功');
     },
     onError: () => {
       Message.error('加载失败');
     },
   });
+
+  const { loading: nextLoading, request: nextRequest } = useRequest(
+    voteDetailService.nextPeriod,
+    {
+      onSuccess: async (result) => {
+        console.log(result);
+        history.push(`/vote/voting/${id}`);
+        Message.success('成功进入投票');
+      },
+      onError: (err) => {
+        err.response
+          ? Message.error(err.response.data.message)
+          : Message.error('进入投票失败');
+      },
+    }
+  );
 
   const {
     data: proposeData,
@@ -167,6 +186,23 @@ const VoteProposeBlock = () => {
               )}
             </div>
           </div>
+          {voteState.owner && voteState.owner === userState._id ? (
+            <div>
+              <div className={styles.middleBlock} />
+              <Button
+                type="secondary"
+                loading={nextLoading}
+                style={{ display: 'block', margin: '0 auto' }}
+                onClick={() => {
+                  nextRequest(id, 'voting');
+                }}
+              >
+                开始投票
+              </Button>
+            </div>
+          ) : (
+            ''
+          )}
         </Loading>
       </Card.Content>
     </Card>

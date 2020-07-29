@@ -34,10 +34,11 @@ export default {
     return lastPropose;
   },
 
-  async nextPeriod(_id) {
+  async nextPeriod(_id, period) {
     return await request({
       url: `/vote/next/${_id}`,
       method: 'put',
+      data: { next: period },
     });
   },
 };

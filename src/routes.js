@@ -6,6 +6,7 @@ import Register from '@/pages/Register';
 import Setting from '@/pages/Setting';
 import VoteNotStarted from '@/pages/VoteNotStarted';
 import VotePropose from '@/pages/VotePropose';
+import VoteVote from '@/pages/VoteVote';
 
 const routerConfig = [
   {
@@ -31,7 +32,8 @@ const routerConfig = [
     component: BasicLayout,
     children: [
       { path: '/notstarted/:id', exact: true, component: VoteNotStarted },
-      { path: '/propose/:id', exact: true, component: VotePropose },
+      { path: '/proposing/:id', exact: true, component: VotePropose },
+      { path: '/voting/:id', exact: true, component: VoteVote },
     ],
   },
   {

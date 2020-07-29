@@ -53,6 +53,8 @@ const VoteNotStartedBlock = () => {
     onSuccess: async (result) => {
       console.log(result);
       await voteDispatchers.fetchVote(result);
+      if (result.period !== 'notStarted')
+        history.push(`/vote/${result.period}/${result._id}`);
       // Message.success('加载成功');
     },
     onError: () => {
@@ -65,7 +67,7 @@ const VoteNotStartedBlock = () => {
     {
       onSuccess: async (result) => {
         console.log(result);
-        history.push(`/vote/propose/${id}`);
+        history.push(`/vote/proposing/${id}`);
         Message.success('成功进入提议');
       },
       onError: (err) => {
@@ -88,16 +90,16 @@ const VoteNotStartedBlock = () => {
           {voteState.owner && voteState.owner === userState._id ? (
             <div>
               <div className={styles.middleBlock} />
-              <GreenBtn
-                type="primary"
+              <Button
+                type="secondary"
                 loading={nextLoading}
                 style={{ display: 'block', margin: '0 auto' }}
                 onClick={() => {
-                  nextRequest(id);
+                  nextRequest(id, 'proposing');
                 }}
               >
                 开始提议
-              </GreenBtn>
+              </Button>
             </div>
           ) : (
             ''
