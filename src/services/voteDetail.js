@@ -33,4 +33,11 @@ export default {
     lastPropose.idx = rawData.proposals.length;
     return lastPropose;
   },
+
+  async nextPeriod(_id) {
+    return await request({
+      url: `/vote/next/${_id}`,
+      method: 'put',
+    });
+  },
 };

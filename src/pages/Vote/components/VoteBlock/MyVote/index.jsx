@@ -91,7 +91,11 @@ const MyVote = () => {
                 free
                 key={item._id}
                 onClick={() => {
-                  history.push(`/vote/propose/${item._id}`);
+                  if (item.period === 'notStarted') {
+                    history.push(`/vote/notstarted/${item._id}`);
+                  } else if (item.period === 'proposing') {
+                    history.push(`/vote/propose/${item._id}`);
+                  }
                   console.log('click card');
                 }}
               >

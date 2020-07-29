@@ -1,15 +1,15 @@
 import React from 'react';
 import { ResponsiveGrid } from '@alifd/next';
-import VoteProposeBlock from './components/VoteProposeBlock';
+import VoteNotStartedBlock from './components/VoteNotStartedBlock';
 
 const { Cell } = ResponsiveGrid;
 
-const VotePropose = () => (
+const VoteNotStarted = () => (
   <ResponsiveGrid gap={20}>
     <Cell colSpan={12}>
-      <VoteProposeBlock />
+      <VoteNotStartedBlock />
     </Cell>
   </ResponsiveGrid>
 );
 
-export default VotePropose;
+export default VoteNotStarted;

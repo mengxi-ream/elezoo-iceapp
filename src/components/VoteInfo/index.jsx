@@ -3,6 +3,7 @@ import { useRequest, useParams, store } from 'ice';
 import { Avatar, Icon, Grid, Tag } from '@alifd/next';
 import voteDetailService from '@/services/voteDetail';
 import styles from './index.module.scss';
+import moment from 'moment';
 
 const { Row, Col } = Grid;
 const periodLabels = {
@@ -83,22 +84,28 @@ const VoteInfo = (props) => {
           <Col xxs={24} xs={12}>
             <span className={styles.under}>提议开始</span>：
             {voteState.proposeStart
-              ? voteState.proposeStart.slice(0, 10)
+              ? moment(voteState.proposeStart).format('YYYY-MM-DD HH:mm')
               : '待定'}
           </Col>
           <Col xxs={24} xs={12}>
             <span className={styles.under}>提议结束</span>：
-            {voteState.voteStart ? voteState.voteStart.slice(0, 10) : '待定'}
+            {voteState.voteStart
+              ? moment(voteState.voteStart).format('YYYY-MM-DD HH:mm')
+              : '待定'}
           </Col>
         </Row>
         <Row className={styles.infoLine} wrap>
           <Col xxs={24} xs={12}>
             <span className={styles.under}>投票开始</span>：
-            {voteState.voteStart ? voteState.voteStart.slice(0, 10) : '待定'}
+            {voteState.voteStart
+              ? moment(voteState.voteStart).format('YYYY-MM-DD HH:mm')
+              : '待定'}
           </Col>
           <Col xxs={24} xs={12}>
             <span className={styles.under}>投票结束</span>：
-            {voteState.voteEnd ? voteState.voteEnd.slice(0, 10) : '待定'}
+            {voteState.voteEnd
+              ? moment(voteState.voteEnd).format('YYYY-MM-DD HH:mm')
+              : '待定'}
           </Col>
         </Row>
       </div>

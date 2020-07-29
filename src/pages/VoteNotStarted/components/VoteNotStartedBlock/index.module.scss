@@ -1,0 +1,20 @@
+@import '~@alifd/next/variables.scss';
+
+.votePageBlock {
+  max-width: 720px;
+  min-width: 280px;
+  // min-height: 612px;
+  margin: $s-10 auto;
+  padding-left: 32px;
+  padding-right: 32px;
+  :global {
+    .next-loading {
+      width: 100%;
+    }
+  }
+}
+
+.middleBlock {
+  height: 56px;
+  width: 100%;
+}

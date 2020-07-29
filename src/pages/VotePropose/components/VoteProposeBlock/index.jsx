@@ -45,7 +45,6 @@ const privacyLabels = {
 const VoteProposeBlock = () => {
   const { id } = useParams();
   const [newProposal, setProposal] = useState('');
-  const [count, setCount] = useState(0);
   const [voteState, voteDispatchers] = store.useModel('voteDetail');
   const { data, loading, request } = useRequest(voteDetailService.getVote, {
     onSuccess: async (result) => {
