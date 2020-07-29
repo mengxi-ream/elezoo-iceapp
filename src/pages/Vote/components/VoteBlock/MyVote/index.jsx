@@ -133,17 +133,14 @@ const MyVote = () => {
                       >
                         {periodLabels[item.period]}
                       </Tag>
-                      {item.privacyOption === 'anonymity' ? (
-                        <img
-                          src="public/icon/anonymously.png"
-                          className={styles.privacyOption}
-                        />
-                      ) : (
-                        <Avatar
-                          className={styles.privacyOption}
-                          src={item.ownerAvatar}
-                        />
-                      )}
+                      <Avatar
+                        className={styles.privacyOption}
+                        src={
+                          item.ownerInfo
+                            ? item.ownerInfo.avatar
+                            : 'public/icon/anonymously.png'
+                        }
+                      />
                     </div>
                     <div className={styles.detail}>{item.detail}</div>
                     <div className={styles.time}>

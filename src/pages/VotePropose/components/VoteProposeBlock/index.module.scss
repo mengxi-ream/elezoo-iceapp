@@ -27,6 +27,7 @@
   justify-content: space-between;
   text-align: center;
   font-size: $font-size-body-2;
+  margin: 8px 0;
 }
 
 .addItem {
@@ -59,14 +60,19 @@
 .itemRight {
   display: flex;
   justify-content: space-between;
-  margin-left: 8px;
+  align-items: center;
+  margin-left: 16px;
   .proposer {
-    width: 24px;
-    height: 24px;
+    // width: 24px;
+    // height: 24px;
   }
   .delete {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -92,4 +98,9 @@
       margin-bottom: 8px;
     }
   }
+}
+
+.divider {
+  margin: 8px 0;
+  background-color: $color-line1-1;
 }

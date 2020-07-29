@@ -11,11 +11,14 @@ export default {
     updateVote(preState, payload) {
       return payload;
     },
-    updateProposal(preState, newProposal) {
+    addProposal(preState, newProposal) {
       let newState = preState;
       newState.proposals.push(newProposal);
       console.log('newState', newState.proposals);
       return newState;
+    },
+    updateProposal(preState, newVoteState) {
+      return newVoteState;
     },
   },
 
@@ -24,7 +27,10 @@ export default {
       this.updateVote(data);
     },
     async addProposal(newProposal) {
-      this.updateProposal(newProposal);
+      this.addProposal(newProposal);
+    },
+    async updateProposals(newVoteState) {
+      this.updateProposals(newVoteState);
     },
   }),
 };

@@ -111,10 +111,14 @@ const VoteProposeBlock = () => {
       Message.error('请填写提议');
       return;
     }
-    proposeRequest(id, {
-      content: newProposal,
-      privacy: voteState.privacyOption,
-    });
+    proposeRequest(
+      id,
+      {
+        content: newProposal,
+        privacy: voteState.privacyOption,
+      },
+      userState
+    );
   };
 
   const onItemSubmit = (privacyOption) => {
@@ -124,7 +128,14 @@ const VoteProposeBlock = () => {
       Message.error('请填写提议');
       return;
     }
-    proposeRequest(id, { content: newProposal, privacy: privacyOption });
+    proposeRequest(
+      id,
+      {
+        content: newProposal,
+        privacy: privacyOption,
+      },
+      userState
+    );
   };
 
   return (
@@ -136,7 +147,7 @@ const VoteProposeBlock = () => {
           <div>
             {voteState.proposals.map((proposal) => {
               return (
-                <div key={proposal._id}>
+                <div key={proposal.idx}>
                   <div className={styles.item}>
                     <div className={styles.itemLeft}>
                       <div className={styles.index}>{proposal.idx}. </div>
@@ -144,13 +155,18 @@ const VoteProposeBlock = () => {
                     </div>
                     <div className={styles.itemRight}>
                       <Avatar
+                        size="small"
                         className={styles.proposer}
-                        src={proposal.proposerInfo.avatar}
+                        src={
+                          proposal.proposerInfo
+                            ? proposal.proposerInfo.avatar
+                            : '/public/icon/anonymously.png'
+                        }
                       />
                       <Icon className={styles.delete} type="close" size="xs" />
                     </div>
                   </div>
-                  <Divider style={{ margin: '8px 0' }} />
+                  <Divider className={styles.divider} />
                 </div>
               );
             })}
