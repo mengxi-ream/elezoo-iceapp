@@ -42,6 +42,10 @@ const showOptions = {
   ],
   anonymity: [{ label: '不显示提议人', value: false }],
 };
+const choiceOptions = [
+  { label: '多选投票', value: true },
+  { label: '单选投票', value: false },
+];
 
 const CreateVote = () => {
   const [postData, setValue] = useState({
@@ -52,7 +56,8 @@ const CreateVote = () => {
     // voteStart: undefined,
     // voteEnd: undefined,
     privacyOption: 'realName',
-    showProposer: 'false',
+    showProposer: false,
+    multiChoice: true,
   });
   const [picData, setPicData] = useState();
   const [voteState, voteDispatchers] = pageStore.useModel('vote');
@@ -69,7 +74,8 @@ const CreateVote = () => {
         voteStart: undefined,
         voteEnd: undefined,
         privacyOption: 'realName',
-        showProposer: 'false',
+        showProposer: false,
+        multiChoice: true,
       });
       Message.success('创建成功');
     },
@@ -143,6 +149,10 @@ const CreateVote = () => {
 
   const onShowProposerChange = (value) => {
     setValue({ ...postData, showProposer: value });
+  };
+
+  const onMultiChoiceChange = (value) => {
+    setValue({ ...postData, multiChoice: value });
   };
 
   const UploadCover = () => (
@@ -269,7 +279,7 @@ const CreateVote = () => {
             />
           </Form.Item>
           <Form.Item
-            colSpan={6}
+            colSpan={4}
             label={<PrivacyLabel />}
             required
             requiredMessage="必填"
@@ -284,7 +294,7 @@ const CreateVote = () => {
             />
           </Form.Item>
           <Form.Item
-            colSpan={6}
+            colSpan={4}
             label="提议人隐私"
             required
             requiredMessage="必填"
@@ -294,6 +304,22 @@ const CreateVote = () => {
               onChange={onShowProposerChange}
               dataSource={showOptions[postData.privacyOption]}
               value={postData.showProposer}
+              showSearch
+              hasClear
+              style={{ width: '100%' }}
+            />
+          </Form.Item>
+          <Form.Item
+            colSpan={4}
+            label="多选或单选"
+            required
+            requiredMessage="必填"
+          >
+            <Select
+              name="multiChoice"
+              onChange={onMultiChoiceChange}
+              dataSource={choiceOptions}
+              value={postData.multiChoice}
               showSearch
               hasClear
               style={{ width: '100%' }}
