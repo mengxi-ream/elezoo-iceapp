@@ -33,7 +33,7 @@ const HeaderAvatar = (props) => {
           <Avatar
             src={userState.avatar}
             alt="用户头像"
-            style={{ border: '1px solid #E8E9ED' }}
+            style={{ width: 30, height: 30 }}
           />
           {/* <span
             style={{

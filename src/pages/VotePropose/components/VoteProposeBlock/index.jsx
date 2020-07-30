@@ -95,6 +95,24 @@ const VoteProposeBlock = () => {
     },
   });
 
+  const {
+    data: deleteData,
+    loading: deleteLoading,
+    request: deleteRequest,
+  } = useRequest(voteDetailService.deleteProposal, {
+    onSuccess: async (result) => {
+      console.log(result);
+      await voteDispatchers.deleteProposal(result);
+      // console.log(voteState);
+      Message.success('删除成功');
+    },
+    onError: (err) => {
+      err.response
+        ? Message.error(err.response.data.message)
+        : Message.error('删除失败');
+    },
+  });
+
   useEffect(() => {
     request(id);
   }, []);
@@ -138,6 +156,11 @@ const VoteProposeBlock = () => {
     );
   };
 
+  const onDeleteClick = (proposalId) => {
+    console.log({ proposalId });
+    deleteRequest(id, { proposalId });
+  };
+
   return (
     <Card free>
       <Card.Content className={styles.votePageBlock}>
@@ -154,16 +177,26 @@ const VoteProposeBlock = () => {
                       <div className={styles.content}>{proposal.content}</div>
                     </div>
                     <div className={styles.itemRight}>
-                      <Avatar
-                        size="small"
-                        className={styles.proposer}
-                        src={
-                          proposal.proposerInfo
-                            ? proposal.proposerInfo.avatar
-                            : '/public/icon/anonymously.png'
-                        }
-                      />
-                      <Icon className={styles.delete} type="close" size="xs" />
+                      {voteState.showProposer ? (
+                        <Avatar
+                          size="small"
+                          className={styles.proposer}
+                          src={
+                            proposal.proposerInfo
+                              ? proposal.proposerInfo.avatar
+                              : '/public/icon/anonymously.png'
+                          }
+                        />
+                      ) : null}
+                      {proposal.proposer === userState._id ||
+                      voteState.owner === userState._id ? (
+                        <Icon
+                          className={styles.delete}
+                          type="close"
+                          size="xs"
+                          onClick={() => onDeleteClick(proposal._id)}
+                        />
+                      ) : null}
                     </div>
                   </div>
                   <Divider className={styles.divider} />

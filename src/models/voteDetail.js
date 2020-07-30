@@ -9,16 +9,26 @@ export default {
 
   reducers: {
     updateVote(preState, payload) {
+      //prevent some value payloads don't have
       return payload;
     },
-    addProposal(preState, newProposal) {
-      let newState = preState;
-      newState.proposals.push(newProposal);
-      console.log('newState', newState.proposals);
-      return newState;
+    updatePartVote(preState, payload) {
+      return { ...preState, ...payload };
     },
-    updateProposal(preState, newVoteState) {
+    updateProposals(preState, newProposals) {
+      // preState.proposals.push(newProposal);
+      return { ...preState, proposals: newProposals };
+    },
+    updateSupporter(preState, newVoteState) {
       return newVoteState;
+    },
+    removeProposal(preState, proposalId) {
+      for (let idx = 0; idx < preState.proposals.length; idx++) {
+        if (preState.proposals[idx]._id.toString() !== proposalId) continue;
+        preState.proposals.splice(idx, 1);
+        break;
+      }
+      // return preState;
     },
   },
 
@@ -26,11 +36,17 @@ export default {
     async fetchVote(data) {
       this.updateVote(data);
     },
-    async addProposal(newProposal) {
-      this.addProposal(newProposal);
+    async addProposal(newProposals) {
+      this.updateProposals(newProposals);
     },
-    async updateProposals(newVoteState) {
-      this.updateProposals(newVoteState);
+    async addSupporter(newVoteState) {
+      this.updateSupporter(newVoteState);
+    },
+    async updatePeriod(newPeriod) {
+      this.updatePartVote({ period: newPeriod });
+    },
+    async deleteProposal(proposalId) {
+      this.removeProposal(proposalId);
     },
   }),
 };

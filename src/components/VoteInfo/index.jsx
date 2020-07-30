@@ -80,6 +80,16 @@ const VoteInfo = (props) => {
             {privacyLabels[voteState.privacyOption]}
           </Col>
         </Row>
+        {/* <Row className={styles.infoLine} wrap>
+          <Col xxs={24} xs={12}>
+            <span className={styles.under}>选择方式</span>：
+            {voteState.multiChoice ? '多选投票' : '单选投票'}
+          </Col>
+          <Col xxs={24} xs={12}>
+            <span className={styles.under}>显示提议人</span>：
+            {voteState.showProposer ? '显示' : '不显示'}
+          </Col>
+        </Row> */}
         <Row className={styles.infoLine} wrap>
           <Col xxs={24} xs={12}>
             <span className={styles.under}>提议开始</span>：

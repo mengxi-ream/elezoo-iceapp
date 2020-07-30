@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { useRequest, store } from 'ice';
+import { useRequest, store, useHistory } from 'ice';
 import { store as pageStore } from 'ice/Vote';
 import {
   Button,
@@ -33,12 +33,12 @@ const privacyOptions = [
 ];
 const showOptions = {
   realName: [
-    { label: '不显示提议人', value: false },
     { label: '显示提议人', value: true },
+    { label: '不显示提议人', value: false },
   ],
   free: [
-    { label: '不显示提议人', value: false },
     { label: '显示提议人', value: true },
+    { label: '不显示提议人', value: false },
   ],
   anonymity: [{ label: '不显示提议人', value: false }],
 };
@@ -48,6 +48,7 @@ const choiceOptions = [
 ];
 
 const CreateVote = () => {
+  const history = useHistory();
   const [postData, setValue] = useState({
     // title: undefined,
     // detail: undefined,
@@ -56,7 +57,7 @@ const CreateVote = () => {
     // voteStart: undefined,
     // voteEnd: undefined,
     privacyOption: 'realName',
-    showProposer: false,
+    showProposer: true,
     multiChoice: true,
   });
   const [picData, setPicData] = useState();
@@ -77,6 +78,7 @@ const CreateVote = () => {
         showProposer: false,
         multiChoice: true,
       });
+      history.push(`/vote/${result.period}/${result._id}`);
       Message.success('创建成功');
     },
     onError: (err) => {
@@ -219,9 +221,9 @@ const CreateVote = () => {
         align="t"
       >
         <div>
-          <div>实名：提议人和投票人不能匿名</div>
-          <div>自由：提议人和投票人可以选择匿名</div>
-          <div>匿名：提议人和投票人全部匿名</div>
+          <div>实名：参与人不能匿名提交信息</div>
+          <div>自由：参与人可以选择匿名提交信息</div>
+          <div>匿名：参与人全部匿名提交信息</div>
         </div>
       </Balloon>
     </span>

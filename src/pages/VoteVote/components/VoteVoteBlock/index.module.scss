@@ -64,6 +64,7 @@
 .itemRight {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-left: 16px;
   color: $color-brand1-6;
   .proposer {
@@ -71,9 +72,15 @@
     height: 24px;
   }
   .percent {
-    width: 36px;
+    width: 40px;
     height: 24px;
     margin-left: 8px;
+    text-align: right;
+  }
+  .proposer {
+    margin-left: 16px;
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -88,6 +95,19 @@
 .divider {
   margin: 8px 0 0 0;
   background-color: $color-line1-1;
+}
+
+.dataBarBG {
+  height: 1px;
+  width: 100%;
+  margin: 8px 0 0 0;
+  background-color: $color-line1-1;
+  .dataBar {
+    background-color: $color-brand1-6;
+    color: $color-brand1-6;
+    // height: 1px;
+    // width: 50%;
+  }
 }
 
 .btn {

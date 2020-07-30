@@ -17,6 +17,7 @@ import {
   MenuButton,
   Checkbox,
   Radio,
+  Animate,
 } from '@alifd/next';
 import VoteInfo from '@/components/VoteInfo';
 import voteDetailService from '@/services/voteDetail';
@@ -46,8 +47,25 @@ const privacyLabels = {
 };
 
 const VoteVoteBlock = () => {
+  // get device
+  const getDevice = (width) => {
+    const isPhone =
+      typeof navigator !== 'undefined' &&
+      navigator &&
+      navigator.userAgent.match(/phone/gi);
+
+    if (width < 660 || isPhone) {
+      return 'phone';
+    }
+    if (width < 1280 && width > 660) {
+      return 'tablet';
+    }
+    return 'desktop';
+  };
+
   const { id } = useParams();
   const history = useHistory();
+  const [device, setDevice] = useState(getDevice(NaN));
   const [proposalIds, setProposalIds] = useState([]);
   const [proposalIdxs, setProposalIdxs] = useState([]);
   const [userState, userDispatchers] = store.useModel('user');
@@ -68,13 +86,14 @@ const VoteVoteBlock = () => {
     {
       onSuccess: async (result) => {
         console.log(result);
-        history.push(`/vote/end/${id}`);
-        Message.success('成功进入提议');
+        // history.push(`/vote/voting/${id}`);
+        await voteDispatchers.updatePeriod('end');
+        Message.success('成功结束投票');
       },
       onError: (err) => {
         err.response
           ? Message.error(err.response.data.message)
-          : Message.error('进入提议失败');
+          : Message.error('结束投票失败');
       },
     }
   );
@@ -84,13 +103,14 @@ const VoteVoteBlock = () => {
     {
       onSuccess: async (result) => {
         console.log(result);
-        // history.push(`/vote/voting/${id}`);
-        Message.success('成功');
+        await voteDispatchers.addSupporter(result);
+        history.push(`/vote/end/${id}`);
+        Message.success('投票成功');
       },
       onError: (err) => {
         err.response
           ? Message.error(err.response.data.message)
-          : Message.error('失败');
+          : Message.error('投票失败');
       },
     }
   );
@@ -98,6 +118,14 @@ const VoteVoteBlock = () => {
   useEffect(() => {
     request(id);
   }, []);
+
+  // get device
+  if (typeof window !== 'undefined') {
+    window.addEventListener('optimizedResize', (e) => {
+      const deviceWidth = (e && e.target && e.target.innerWidth) || NaN;
+      setDevice(getDevice(deviceWidth));
+    });
+  }
 
   const onCheckboxChange = (idxList) => {
     console.log('value', idxList);
@@ -157,10 +185,12 @@ const VoteVoteBlock = () => {
             <div key={proposal.idx}>
               <div className={styles.itemBlock}>
                 <div className={styles.index}>
-                  {voteState.multiChoice ? (
-                    <Checkbox id={proposal.idx} value={proposal.idx} />
+                  {voteState.hasVoted || voteState.period === 'end' ? (
+                    <div style={{ fontSize: 16 }}>{proposal.idx}.</div>
+                  ) : voteState.multiChoice ? (
+                    <Checkbox id={proposal._id} value={proposal.idx} />
                   ) : (
-                    <Radio id={proposal.idx} value={proposal.idx} />
+                    <Radio id={proposal._id} value={proposal.idx} />
                   )}
                 </div>
                 <div className={styles.blockRight}>
@@ -169,8 +199,23 @@ const VoteVoteBlock = () => {
                       <div className={styles.content}>{proposal.content}</div>
                     </div>
                     <div className={styles.itemRight}>
-                      <div>{proposal.subtotalVotes}票</div>
-                      <div className={styles.percent}>40%</div>
+                      <div>{proposal.subtotalVotes} 票</div>
+                      {device !== 'phone' ? (
+                        <div className={styles.percent}>
+                          {Number(proposal.percent * 100).toFixed(0)}%
+                        </div>
+                      ) : null}
+                      {voteState.showProposer ? (
+                        <Avatar
+                          src={
+                            proposal.proposerInfo
+                              ? proposal.proposerInfo.avatar
+                              : '/public/icon/anonymously.png'
+                          }
+                          className={styles.proposer}
+                          size="small"
+                        />
+                      ) : null}
                     </div>
                   </div>
                   {proposal.subtotalVotes > 0 ? (
@@ -195,7 +240,15 @@ const VoteVoteBlock = () => {
                   )}
                 </div>
               </div>
-              <Divider className={styles.divider} />
+              <div className={styles.dataBarBG}>
+                <div
+                  className={styles.dataBar}
+                  style={{
+                    height: 1,
+                    width: `${proposal.percent * 100}%`,
+                  }}
+                />
+              </div>
             </div>
           );
         })}
@@ -223,7 +276,9 @@ const VoteVoteBlock = () => {
           )}
           <div className={styles.middleBlock} />
           <div className={styles.btnGroup}>
-            {voteState.privacyOption === 'free' ? (
+            {voteState.hasVoted ||
+            voteState.period === 'end' ? null : voteState.privacyOption ===
+              'free' ? (
               <MenuButton
                 label="提交投票"
                 type="primary"
@@ -244,7 +299,9 @@ const VoteVoteBlock = () => {
                 提交投票
               </Button>
             )}
-            {voteState.owner && voteState.owner === userState._id ? (
+            {voteState.owner &&
+            voteState.owner === userState._id &&
+            voteState.period !== 'end' ? (
               <Button
                 warning
                 type="normal"
@@ -256,9 +313,7 @@ const VoteVoteBlock = () => {
               >
                 结束投票
               </Button>
-            ) : (
-              ''
-            )}
+            ) : null}
           </div>
         </Loading>
       </Card.Content>

@@ -34,6 +34,7 @@ const routerConfig = [
       { path: '/notstarted/:id', exact: true, component: VoteNotStarted },
       { path: '/proposing/:id', exact: true, component: VotePropose },
       { path: '/voting/:id', exact: true, component: VoteVote },
+      { path: '/end/:id', exact: true, component: VoteVote },
     ],
   },
   {
