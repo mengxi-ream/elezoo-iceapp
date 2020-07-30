@@ -46,6 +46,11 @@ const choiceOptions = [
   { label: '多选投票', value: true },
   { label: '单选投票', value: false },
 ];
+const periodOrder = {
+  proposing: 1,
+  voting: 2,
+  end: 3,
+};
 
 const UpdateVoteBlock = () => {
   const { id } = useParams();
@@ -67,6 +72,10 @@ const UpdateVoteBlock = () => {
   const { data, loading, request } = useRequest(voteDetailService.getVote, {
     onSuccess: async (result) => {
       console.log(result);
+      if (result.proposeStart)
+        result.proposeStart = moment(result.proposeStart);
+      if (result.voteStart) result.voteStart = moment(result.voteStart);
+      if (result.voteEnd) result.voteEnd = moment(result.voteEnd);
       await voteDispatchers.fetchVote(result);
       setValue(result);
       if (result.cover) {
@@ -137,30 +146,40 @@ const UpdateVoteBlock = () => {
     setPicData(undefined);
   };
 
-  const disabledDate = function (date, view) {
-    switch (view) {
-      case 'date':
-        return date.valueOf() < currentDate.valueOf() - 24 * 60 * 60 * 1000;
-      case 'year':
-        return date.year() < currentDate.year();
-      case 'month':
-        return (
-          date.year() * 100 + date.month() <
-          currentDate.year() * 100 + currentDate.month()
-        );
-      default:
-        return false;
-    }
+  const disabledProposeDate = (date) => {
+    if (date.valueOf() < currentDate.valueOf() - 24 * 60 * 60 * 1000 + 1)
+      return true;
+    if (postData.voteStart && date.valueOf() > postData.voteStart.valueOf())
+      return true;
+    return false;
   };
 
-  const onProposeChange = (values) => {
-    setValue({ ...postData, proposeStart: values[0], voteStart: values[1] });
-    // console.log(values[0]);
-    // console.log(values[1]);
+  const disabledVoteDate = (date) => {
+    if (date.valueOf() < currentDate.valueOf() - 24 * 60 * 60 * 1000 + 1)
+      return true;
+    if (
+      postData.proposeStart &&
+      date.valueOf() < postData.proposeStart.valueOf() - 24 * 60 * 60 * 1000 + 1
+    )
+      return true;
+    if (postData.voteEnd && date.valueOf() > postData.voteEnd.valueOf())
+      return true;
+    return false;
   };
 
-  const onVoteChange = (values) => {
-    setValue({ ...postData, voteStart: values[0], voteEnd: values[1] });
+  const disabledEndDate = (date) => {
+    if (date.valueOf() < currentDate.valueOf() - 24 * 60 * 60 * 1000 + 1)
+      return true;
+    if (
+      postData.voteStart &&
+      date.valueOf() < postData.voteStart.valueOf() - 24 * 60 * 60 * 1000 + 1
+    )
+      return true;
+    return false;
+  };
+
+  const handleTimeChange = (field, val) => {
+    setValue({ ...postData, [field]: val });
   };
 
   const onPrivacyOptionChange = (value) => {
@@ -215,16 +234,30 @@ const UpdateVoteBlock = () => {
     </Upload.Dragger>
   );
 
-  const TimeLabel = ({ text }) => (
+  const ProposeLabel = () => (
     <span>
-      {text}{' '}
+      提议开始{' '}
       <Balloon
         type="primary"
         trigger={<Icon type="prompt" size="small" />}
         closable={false}
         align="t"
       >
-        <div>若选择结束时间，则必须选择开始时间</div>
+        <div>参与人开始对投票选项进行提议的时间</div>
+      </Balloon>
+    </span>
+  );
+
+  const TimeLabel = ({ now, last }) => (
+    <span>
+      {now}{' '}
+      <Balloon
+        type="primary"
+        trigger={<Icon type="prompt" size="small" />}
+        closable={false}
+        align="t"
+      >
+        <div>{`${now}时间需大于${last}时间`}</div>
       </Balloon>
     </span>
   );
@@ -266,7 +299,6 @@ const UpdateVoteBlock = () => {
             <Input name="title" placeholder="投票标题" />
           </Form.Item>
           <Form.Item colSpan={12} maxLength={100} label="介绍">
-            {/* <Input name="detail" placeholder="关于投票的详细介绍"/> */}
             <Input.TextArea
               name="detail"
               autoHeight={{ minRows: 2, maxRows: 4 }}
@@ -276,26 +308,46 @@ const UpdateVoteBlock = () => {
           <Form.Item colSpan={12} label="封面">
             <UploadCover />
           </Form.Item>
-          <Form.Item colSpan={12} label={<TimeLabel text={'提议时间'} />}>
-            <RangePicker
-              disabledDate={disabledDate}
+          <Form.Item colSpan={4} label={<ProposeLabel />}>
+            <DatePicker
+              disabledDate={disabledProposeDate}
               showTime={{ format: 'HH:mm' }}
-              placeholder={['开始时间', '结束时间']}
+              placeholder={'输入时间'}
+              // onOk={onVoteOk}
+              onChange={(val) => handleTimeChange('proposeStart', val)}
+              value={postData.proposeStart}
               style={{ width: '100%' }}
-              // onOk={onProposeOk}
-              onChange={onProposeChange}
-              value={[postData.proposeStart, postData.voteStart]}
+              disabled={periodOrder.proposing <= periodOrder[voteState.period]}
             />
           </Form.Item>
-          <Form.Item colSpan={12} label={<TimeLabel text={'投票时间'} />}>
-            <RangePicker
-              disabledDate={disabledDate}
+          <Form.Item
+            colSpan={4}
+            label={<TimeLabel now={'投票开始'} last={'提议开始'} />}
+          >
+            <DatePicker
+              disabledDate={disabledVoteDate}
               showTime={{ format: 'HH:mm' }}
-              placeholder={['开始时间', '结束时间']}
-              style={{ width: '100%' }}
+              placeholder={'输入时间'}
               // onOk={onVoteOk}
-              onChange={onVoteChange}
-              value={[postData.voteStart, postData.voteEnd]}
+              onChange={(val) => handleTimeChange('voteStart', val)}
+              value={postData.voteStart}
+              style={{ width: '100%' }}
+              disabled={periodOrder.voting <= periodOrder[voteState.period]}
+            />
+          </Form.Item>
+          <Form.Item
+            colSpan={4}
+            label={<TimeLabel now={'投票结束'} last={'投票开始'} />}
+          >
+            <DatePicker
+              disabledDate={disabledEndDate}
+              showTime={{ format: 'HH:mm' }}
+              placeholder={'输入时间'}
+              // onOk={onVoteOk}
+              onChange={(val) => handleTimeChange('voteEnd', val)}
+              value={postData.voteEnd}
+              style={{ width: '100%' }}
+              disabled={periodOrder.end <= periodOrder[voteState.period]}
             />
           </Form.Item>
           <Form.Item
