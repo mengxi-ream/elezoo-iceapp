@@ -1,0 +1,10 @@
+@import '~@alifd/next/variables.scss';
+
+.settingPageBlock {
+  max-width: 568px;
+  min-width: 280px;
+  min-height: 460px;
+  margin: $s-10 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}

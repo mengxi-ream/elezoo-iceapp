@@ -1,5 +1,6 @@
 import { request, store } from 'ice';
 import vote from '@/pages/Vote/services/vote';
+import UpdateBasic from '@/pages/Setting/components/SettingBlock/UpdateBasic';
 
 export default {
   async getVote(_id) {
@@ -136,6 +137,14 @@ export default {
       url: `/vote/next/${_id}`,
       method: 'put',
       data: { next: period },
+    });
+  },
+
+  async updateBasic(_id, payload) {
+    return await request({
+      url: `/vote/basic/${_id}`,
+      method: 'put',
+      data: payload,
     });
   },
 };

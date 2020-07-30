@@ -7,6 +7,7 @@ import Setting from '@/pages/Setting';
 import VoteNotStarted from '@/pages/VoteNotStarted';
 import VotePropose from '@/pages/VotePropose';
 import VoteVote from '@/pages/VoteVote';
+import UpdateVote from '@/pages/UpdateVote';
 
 const routerConfig = [
   {
@@ -35,6 +36,7 @@ const routerConfig = [
       { path: '/proposing/:id', exact: true, component: VotePropose },
       { path: '/voting/:id', exact: true, component: VoteVote },
       { path: '/end/:id', exact: true, component: VoteVote },
+      { path: '/update/:id', exact: true, component: UpdateVote },
     ],
   },
   {

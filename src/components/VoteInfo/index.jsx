@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRequest, useParams, store } from 'ice';
+import { useRequest, useParams, store, useHistory } from 'ice';
 import { Avatar, Icon, Grid, Tag } from '@alifd/next';
 import voteDetailService from '@/services/voteDetail';
 import styles from './index.module.scss';
@@ -25,7 +25,16 @@ const privacyLabels = {
 };
 
 const VoteInfo = (props) => {
+  const { id } = useParams();
+  const history = useHistory();
   const { voteState } = props;
+  const [userState, userDispatchers] = store.useModel('user');
+
+  const onSettingClick = () => {
+    history.push(`/vote/update/${id}`)
+    // console.log(id);
+  };
+
   return (
     <div>
       <div className={styles.tools}>
@@ -42,15 +51,15 @@ const VoteInfo = (props) => {
               console.log('click icon');
             }}
           />
-          <Icon
-            className={styles.toolButton}
-            type="set"
-            role="button"
-            aria-label="icon set"
-            onClick={() => {
-              console.log('click icon');
-            }}
-          />
+          {userState._id === voteState.owner ? (
+            <Icon
+              className={styles.toolButton}
+              type="set"
+              role="button"
+              aria-label="icon set"
+              onClick={onSettingClick}
+            />
+          ) : null}
           <Icon
             className={styles.toolButton}
             type="upload"

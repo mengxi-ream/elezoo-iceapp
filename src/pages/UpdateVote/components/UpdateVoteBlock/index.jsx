@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import { useRequest, store, useHistory } from 'ice';
+import { useRequest, store, useHistory, useParams } from 'ice';
 import { store as pageStore } from 'ice/Vote';
 import {
   Button,
@@ -19,7 +19,7 @@ import {
 } from '@alifd/next';
 import PageTab from '@/components/PageTab';
 import SubmitBtn from '@/components/SubmitBtn';
-import voteService from '@/pages/Vote/services/vote';
+import voteDetailService from '@/services/voteDetail';
 import styles from './index.module.scss';
 
 const { Cell } = ResponsiveGrid;
@@ -47,7 +47,8 @@ const choiceOptions = [
   { label: '单选投票', value: false },
 ];
 
-const CreateVote = () => {
+const UpdateVoteBlock = () => {
+  const { id } = useParams();
   const history = useHistory();
   const [postData, setValue] = useState({
     // title: undefined,
@@ -61,32 +62,49 @@ const CreateVote = () => {
     multiChoice: true,
   });
   const [picData, setPicData] = useState();
-  const [voteState, voteDispatchers] = pageStore.useModel('vote');
-  const { data, loading, request } = useRequest(voteService.createVote, {
+  const [voteState, voteDispatchers] = store.useModel('voteDetail');
+  // const [postData, setValue] = useState(voteState);
+  const { data, loading, request } = useRequest(voteDetailService.getVote, {
     onSuccess: async (result) => {
-      // console.log('updatedInfo:', result);
       console.log(result);
-      await voteDispatchers.changeSubmit(true);
-      setValue({
-        title: undefined,
-        detail: undefined,
-        cover: undefined,
-        proposeStart: undefined,
-        voteStart: undefined,
-        voteEnd: undefined,
-        privacyOption: 'realName',
-        showProposer: false,
-        multiChoice: true,
-      });
-      history.push(`/vote/${result.period}/${result._id}`);
-      Message.success('创建成功');
+      await voteDispatchers.fetchVote(result);
+      setValue(result);
+      if (result.cover) {
+        setPicData({
+          uid: 0,
+          name: 'This is your original cover.',
+          state: 'success',
+          url: result.cover,
+        });
+      }
+      // Message.success('加载成功');
+    },
+    onError: () => {
+      Message.error('加载失败');
+    },
+  });
+
+  const {
+    data: updateData,
+    loading: updateLoading,
+    request: updateRequest,
+  } = useRequest(voteDetailService.updateBasic, {
+    onSuccess: async (result) => {
+      console.log(result);
+      await voteDispatchers.fetchVote(result);
+
+      Message.success('修改成功');
     },
     onError: (err) => {
       err.response
         ? Message.error(err.response.data.message)
-        : Message.error('创建失败');
+        : Message.error('修改失败');
     },
   });
+
+  useEffect(() => {
+    request(id);
+  }, []);
 
   const formChange = (value) => {
     setValue({ ...postData, ...value });
@@ -99,7 +117,7 @@ const CreateVote = () => {
       return;
     }
     console.log(values);
-    request(values);
+    updateRequest(id, values);
   };
 
   const uploadSuccess = (value) => {
@@ -231,7 +249,7 @@ const CreateVote = () => {
 
   return (
     <Card free>
-      <Card.Content className={styles.SettingPageBlock}>
+      <Card.Content className={styles.settingPageBlock}>
         <Form
           responsive
           labelAlign="top"
@@ -289,10 +307,11 @@ const CreateVote = () => {
             <Select
               onChange={onPrivacyOptionChange}
               dataSource={privacyOptions}
-              defaultValue="realName"
+              value={postData.privacyOption}
               showSearch
               hasClear
               style={{ width: '100%' }}
+              disabled
             />
           </Form.Item>
           <Form.Item
@@ -325,6 +344,7 @@ const CreateVote = () => {
               showSearch
               hasClear
               style={{ width: '100%' }}
+              disabled
             />
           </Form.Item>
           <Form.Item
@@ -335,12 +355,12 @@ const CreateVote = () => {
           >
             <SubmitBtn
               type="primary"
-              loading={loading}
+              loading={updateLoading}
               validate
               onClick={handleSubmit}
               style={{ display: 'block', margin: '0 auto' }}
             >
-              创建投票
+              修改投票
             </SubmitBtn>
           </Form.Item>
         </Form>
@@ -349,4 +369,4 @@ const CreateVote = () => {
   );
 };
 
-export default CreateVote;
+export default UpdateVoteBlock;
