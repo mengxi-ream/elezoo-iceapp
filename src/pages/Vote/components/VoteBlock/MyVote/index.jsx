@@ -18,8 +18,14 @@ import {
 import PageTab from '@/components/PageTab';
 import SubmitBtn from '@/components/SubmitBtn';
 import voteService from '@/pages/Vote/services/vote';
+import DynamicIcon from '@icedesign/dynamic-icon';
 import styles from './index.module.scss';
-import vote from '@/pages/Vote/services/vote';
+
+const CustomIcon = DynamicIcon.create({
+  fontFamily: 'iconfont',
+  prefix: 'icon',
+  css: 'https://at.alicdn.com/t/font_1969578_5fz0k52q28e.css',
+});
 
 const { Cell } = ResponsiveGrid;
 const periodLabels = {
@@ -110,8 +116,9 @@ const MyVote = () => {
                   <Card.Header
                     title={item.title}
                     extra={
-                      <Icon
-                        type="upload"
+                      <CustomIcon
+                        className={styles.iconButton}
+                        type="share2"
                         size="small"
                         role="button"
                         aria-label="icon share"

@@ -15,6 +15,7 @@ import {
   Icon,
   Grid,
   MenuButton,
+  Dialog,
 } from '@alifd/next';
 import VoteInfo from '@/components/VoteInfo';
 import voteDetailService from '@/services/voteDetail';
@@ -161,6 +162,17 @@ const VoteProposeBlock = () => {
     deleteRequest(id, { proposalId });
   };
 
+  const popupConfirm = () => {
+    Dialog.confirm({
+      title: '确认',
+      content: '进入投票后将无法提议，你确定要进入投票吗？',
+      onOk: () => {
+        nextRequest(id, 'voting');
+      },
+      // onCancel: () => console.log('cancel'),
+    });
+  };
+
   return (
     <Card free>
       <Card.Content className={styles.votePageBlock}>
@@ -242,9 +254,7 @@ const VoteProposeBlock = () => {
                 type="secondary"
                 loading={nextLoading}
                 style={{ display: 'block', margin: '0 auto' }}
-                onClick={() => {
-                  nextRequest(id, 'voting');
-                }}
+                onClick={popupConfirm}
               >
                 开始投票
               </Button>

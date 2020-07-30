@@ -2,8 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useRequest, useParams, store, useHistory } from 'ice';
 import { Avatar, Icon, Grid, Tag } from '@alifd/next';
 import voteDetailService from '@/services/voteDetail';
+import DynamicIcon from '@icedesign/dynamic-icon';
 import styles from './index.module.scss';
 import moment from 'moment';
+
+const CustomIcon = DynamicIcon.create({
+  fontFamily: 'iconfont',
+  prefix: 'icon',
+  css: 'https://at.alicdn.com/t/font_1969578_5fz0k52q28e.css',
+});
 
 const { Row, Col } = Grid;
 const periodLabels = {
@@ -31,7 +38,7 @@ const VoteInfo = (props) => {
   const [userState, userDispatchers] = store.useModel('user');
 
   const onSettingClick = () => {
-    history.push(`/vote/update/${id}`)
+    history.push(`/vote/update/${id}`);
     // console.log(id);
   };
 
@@ -41,9 +48,11 @@ const VoteInfo = (props) => {
         <Tag type="primary" color={periodColors[voteState.period]}>
           {periodLabels[voteState.period]}
         </Tag>
-        <div>
+        <div
+          style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}
+        >
           <Icon
-            className={styles.toolButton}
+            className={styles.iconButton}
             type="ashbin"
             role="button"
             aria-label="icon ashbin"
@@ -53,16 +62,17 @@ const VoteInfo = (props) => {
           />
           {userState._id === voteState.owner ? (
             <Icon
-              className={styles.toolButton}
+              className={styles.iconButton}
               type="set"
               role="button"
               aria-label="icon set"
               onClick={onSettingClick}
             />
           ) : null}
-          <Icon
-            className={styles.toolButton}
-            type="upload"
+          <CustomIcon
+            className={styles.iconButton}
+            style={{ marginTop: 2 }}
+            type="share2"
             role="button"
             aria-label="icon share"
             onClick={() => {

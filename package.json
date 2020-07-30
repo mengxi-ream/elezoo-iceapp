@@ -10,6 +10,7 @@
     "@alifd/theme-design-pro": "^0.x",
     "@alifd/theme-elezoo1": "^0.2.1",
     "@alifd/theme-ice-green": "^1.1.0",
+    "@icedesign/dynamic-icon": "^0.1.8",
     "axios": "^0.19.2",
     "fs": "0.0.1-security",
     "moment": "^2.24.0",

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Shell, ConfigProvider, Search } from '@alifd/next';
+import { Shell, ConfigProvider, Search, Tag } from '@alifd/next';
+import { useHistory } from 'ice';
 import PageNav from './components/PageNav';
 import Logo from './components/Logo';
 import Footer from './components/Footer';
@@ -46,6 +47,7 @@ export default function BasicLayout({ children }) {
     return 'desktop';
   };
 
+  const history = useHistory();
   const [device, setDevice] = useState(getDevice(NaN));
 
   if (typeof window !== 'undefined') {
@@ -70,14 +72,26 @@ export default function BasicLayout({ children }) {
         <Shell.Navigation
           direction="hoz"
           style={{
-            marginRight: 10,
+            marginRight: 24,
           }}
         >
-          <Search
-            shape="simple"
-            placeholder="Search"
-            // style={{ width: '200px' }}
-          />
+          <div
+            className={styles.textNav}
+            onClick={() => {
+              history.push('/quick');
+            }}
+          >
+            快速创建
+          </div>
+          <div
+            className={styles.textNav}
+            onClick={() => {
+              history.push('/');
+            }}
+          >
+            我的投票
+          </div>
+          <Search shape="simple" placeholder="Search" style={{ width: 232 }} />
         </Shell.Navigation>
         <Shell.Action>
           <HeaderAvatar />

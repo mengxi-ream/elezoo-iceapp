@@ -18,6 +18,7 @@ import {
   Checkbox,
   Radio,
   Animate,
+  Dialog,
 } from '@alifd/next';
 import VoteInfo from '@/components/VoteInfo';
 import voteDetailService from '@/services/voteDetail';
@@ -177,6 +178,17 @@ const VoteVoteBlock = () => {
     );
   };
 
+  const popupConfirm = () => {
+    Dialog.confirm({
+      title: '确认',
+      content: '你确定要结束投票吗？',
+      onOk: () => {
+        nextRequest(id, 'end');
+      },
+      // onCancel: () => console.log('cancel'),
+    });
+  };
+
   const SubBlock = () => {
     return (
       <div>
@@ -307,9 +319,7 @@ const VoteVoteBlock = () => {
                 type="normal"
                 loading={nextLoading}
                 style={{ display: 'block', margin: '0 auto' }}
-                onClick={() => {
-                  nextRequest(id, 'end');
-                }}
+                onClick={popupConfirm}
               >
                 结束投票
               </Button>

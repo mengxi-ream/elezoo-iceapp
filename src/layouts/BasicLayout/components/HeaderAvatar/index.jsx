@@ -64,7 +64,7 @@ const HeaderAvatar = (props) => {
             history.push('/help');
           }}
         >
-          <Icon size="small" type="set" />
+          <Icon size="small" type="help" />
           帮助
         </Item>
         <Item

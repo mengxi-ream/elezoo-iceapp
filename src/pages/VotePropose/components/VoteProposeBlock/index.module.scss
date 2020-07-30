@@ -69,6 +69,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+  }
+  .delete:hover {
+    color: $color-brand1-6;
   }
 }
 
