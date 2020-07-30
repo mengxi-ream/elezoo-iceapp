@@ -75,7 +75,7 @@ const CreateVote = () => {
         voteStart: undefined,
         voteEnd: undefined,
         privacyOption: 'realName',
-        showProposer: false,
+        showProposer: true,
         multiChoice: true,
       });
       history.push(`/vote/${result.period}/${result._id}`);
@@ -255,7 +255,7 @@ const CreateVote = () => {
 
   return (
     <Card free>
-      <Card.Content className={styles.SettingPageBlock}>
+      <Card.Content className={styles.settingPageBlock}>
         <Form
           responsive
           labelAlign="top"

@@ -8,6 +8,7 @@ import VoteNotStarted from '@/pages/VoteNotStarted';
 import VotePropose from '@/pages/VotePropose';
 import VoteVote from '@/pages/VoteVote';
 import UpdateVote from '@/pages/UpdateVote';
+import QuickCreate from '@/pages/QuickCreate'
 
 const routerConfig = [
   {
@@ -47,6 +48,7 @@ const routerConfig = [
         path: '/setting',
         component: Setting,
       },
+      { path: '/quick', component: QuickCreate },
       {
         path: '/',
         component: Vote,

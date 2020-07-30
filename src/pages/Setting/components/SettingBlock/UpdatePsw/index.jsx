@@ -64,7 +64,7 @@ const UpdatePsw = () => {
 
   return (
     <Card free>
-      <Card.Content className={styles.SettingPageBlock}>
+      <Card.Content className={styles.settingPageBlock}>
         <Form labelAlign="top" value={postData} onChange={formChange}>
           <PswInput
             label="原始密码"

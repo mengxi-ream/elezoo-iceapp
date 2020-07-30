@@ -17,7 +17,7 @@ const VoteBlock = () => {
   };
 
   return (
-    <PageTab defaultActiveKey={'createVote'}>
+    <PageTab>
       <Tab.Item title="我的投票" key="myVote" onClick={clickMyVote}>
         <MyVote />
       </Tab.Item>

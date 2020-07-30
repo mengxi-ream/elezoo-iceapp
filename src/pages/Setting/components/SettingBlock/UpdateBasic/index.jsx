@@ -70,7 +70,7 @@ const UpdateBasic = () => {
 
   return (
     <Card free>
-      <Card.Content className={styles.SettingPageBlock}>
+      <Card.Content className={styles.settingPageBlock}>
         <Form labelAlign="top" responsive>
           <Form.Item label="" colSpan={12}>
             <div className={styles.avatar}>

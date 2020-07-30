@@ -101,7 +101,7 @@ const UpdateVoteBlock = () => {
     onSuccess: async (result) => {
       console.log(result);
       await voteDispatchers.fetchVote(result);
-
+      history.push(`/vote/${result.period}/${id}`);
       Message.success('修改成功');
     },
     onError: (err) => {

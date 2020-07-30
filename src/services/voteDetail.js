@@ -3,6 +3,14 @@ import vote from '@/pages/Vote/services/vote';
 import UpdateBasic from '@/pages/Setting/components/SettingBlock/UpdateBasic';
 
 export default {
+  async createVote(payload) {
+    return await request({
+      url: '/vote/create',
+      method: 'post',
+      data: payload,
+    });
+  },
+
   async getVote(_id) {
     let rawData = await request({
       url: `/vote/${_id}`,

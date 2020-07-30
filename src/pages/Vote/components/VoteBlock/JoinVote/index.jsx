@@ -21,7 +21,7 @@ const { Cell } = ResponsiveGrid;
 const JoinVote = () => {
   return (
     <Card free>
-      <Card.Content className={styles.SettingPageBlock}></Card.Content>
+      <Card.Content className={styles.settingPageBlock}></Card.Content>
     </Card>
   );
 };
