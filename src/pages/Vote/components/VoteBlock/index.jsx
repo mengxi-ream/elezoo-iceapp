@@ -14,17 +14,29 @@ const VoteBlock = () => {
       await voteDispatchers.changeFetchTrigger();
       await voteDispatchers.changeSubmit(false);
     }
+
   };
 
+
   return (
-    <PageTab>
-      <Tab.Item title="我的投票" key="myVote" onClick={clickMyVote}>
+    <PageTab activeKey={voteState.activeKey}>
+      <Tab.Item
+        title="我的投票"
+        key="myVote"
+        onClick={clickMyVote}
+      >
         <MyVote />
       </Tab.Item>
-      <Tab.Item title="创建投票" key="createVote">
+      <Tab.Item
+        title="创建投票"
+        key="createVote"
+      >
         <CreateVote />
       </Tab.Item>
-      <Tab.Item title="加入投票" key="joinVote">
+      <Tab.Item
+        title="加入投票"
+        key="joinVote"
+      >
         <JoinVote />
       </Tab.Item>
     </PageTab>

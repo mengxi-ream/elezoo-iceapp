@@ -177,7 +177,7 @@ const VoteProposeBlock = () => {
     <Card free>
       <Card.Content className={styles.votePageBlock}>
         <Loading visible={loading}>
-          <VoteInfo voteState={voteState} />
+          <VoteInfo />
           <div className={styles.middleBlock} />
           <div>
             {voteState.proposals.map((proposal) => {

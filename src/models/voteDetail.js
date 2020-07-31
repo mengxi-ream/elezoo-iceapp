@@ -48,5 +48,8 @@ export default {
     async deleteProposal(proposalId) {
       this.removeProposal(proposalId);
     },
+    async updatePart(payload) {
+      this.updatePartVote(payload);
+    },
   }),
 };

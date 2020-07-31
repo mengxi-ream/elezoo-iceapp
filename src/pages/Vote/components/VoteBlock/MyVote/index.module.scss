@@ -21,6 +21,10 @@
   height: 180px;
   margin-bottom: 36px;
   box-shadow: 0px 2px 8px #e2e2e2;
+  position: relative;
+  top: 0;
+  transition: all 0.3s;
+  cursor: pointer;
   :global {
     .next-card-header-title {
       overflow: hidden;
@@ -28,7 +32,10 @@
       text-overflow: ellipsis;
     }
   }
-  cursor: pointer;
+}
+
+.card:hover {
+  top: -3px;
 }
 
 .card:last-child {
@@ -87,4 +94,12 @@
 
 .iconButton:hover {
   color: $color-brand1-6;
+}
+
+.add {
+  width: 100%;
+  height: 180px;
+  .addIcon {
+    margin-bottom: 16px;
+  }
 }

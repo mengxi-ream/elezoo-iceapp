@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 import { history, store } from 'ice';
 import { Avatar, Overlay, Menu, Icon, Divider } from '@alifd/next';
+import DynamicIcon from '@icedesign/dynamic-icon';
 import styles from './index.module.scss';
+
+const CustomIcon = DynamicIcon.create({
+  fontFamily: 'iconfont',
+  prefix: 'icon',
+  css: 'https://at.alicdn.com/t/font_1969578_z8tm4vu9r6f.css',
+});
 
 const { Item } = Menu;
 const { Popup } = Overlay;
@@ -75,7 +82,11 @@ const HeaderAvatar = (props) => {
             history.push('/user/login');
           }}
         >
-          <Icon size="small" type="exit" />
+          <CustomIcon
+            size="small"
+            type="tuichudenglu"
+            style={{ marginRight: 8 }}
+          />
           退出
         </Item>
       </Menu>

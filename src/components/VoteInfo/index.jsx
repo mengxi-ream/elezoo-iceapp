@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useRequest, useParams, store, useHistory } from 'ice';
-import { Avatar, Icon, Grid, Tag } from '@alifd/next';
+import {
+  Avatar,
+  Icon,
+  Grid,
+  Tag,
+  Drawer,
+  Input,
+  Button,
+  Form,
+  Switch,
+  Message,
+  Dialog,
+  List,
+} from '@alifd/next';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import voteDetailService from '@/services/voteDetail';
 import DynamicIcon from '@icedesign/dynamic-icon';
 import styles from './index.module.scss';
@@ -9,7 +23,7 @@ import moment from 'moment';
 const CustomIcon = DynamicIcon.create({
   fontFamily: 'iconfont',
   prefix: 'icon',
-  css: 'https://at.alicdn.com/t/font_1969578_5fz0k52q28e.css',
+  css: 'https://at.alicdn.com/t/font_1969578_z8tm4vu9r6f.css',
 });
 
 const { Row, Col } = Grid;
@@ -34,12 +48,47 @@ const privacyLabels = {
 const VoteInfo = (props) => {
   const { id } = useParams();
   const history = useHistory();
-  const { voteState } = props;
   const [userState, userDispatchers] = store.useModel('user');
+  const [voteState, voteDispatchers] = store.useModel('voteDetail');
+  const [visibleDrawer, setVisibleDrawer] = useState(false);
+
+  const { data, loading, request } = useRequest(
+    voteDetailService.resetShareId,
+    {
+      onSuccess: async (result) => {
+        await voteDispatchers.updatePart({ share: result.share });
+        Message.success('重置成功');
+      },
+      onError: () => {
+        Message.error('重置失败');
+      },
+    }
+  );
+
+  const {
+    data: activeData,
+    loading: activeLoading,
+    request: activeRequest,
+  } = useRequest(voteDetailService.shareActive, {
+    onSuccess: async (result) => {
+      await voteDispatchers.updatePart({ share: result.share });
+    },
+  });
 
   const onSettingClick = () => {
     history.push(`/vote/update/${id}`);
     // console.log(id);
+  };
+
+  const popupConfirm = () => {
+    Dialog.confirm({
+      title: '确认',
+      content: '重置链接将导致之前的链接失效',
+      onOk: () => {
+        request(id);
+      },
+      // onCancel: () => console.log('cancel'),
+    });
   };
 
   return (
@@ -51,15 +100,28 @@ const VoteInfo = (props) => {
         <div
           style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}
         >
-          <Icon
-            className={styles.iconButton}
-            type="ashbin"
-            role="button"
-            aria-label="icon ashbin"
-            onClick={() => {
-              console.log('click icon');
-            }}
-          />
+          {userState._id !== voteState.owner ? (
+            <Icon
+              className={styles.iconButton}
+              type="exit"
+              role="button"
+              aria-label="icon exit"
+              onClick={() => {
+                console.log('click icon');
+              }}
+            />
+          ) : null}
+          {userState._id === voteState.owner ? (
+            <Icon
+              className={styles.iconButton}
+              type="ashbin"
+              role="button"
+              aria-label="icon ashbin"
+              onClick={() => {
+                console.log('click icon');
+              }}
+            />
+          ) : null}
           {userState._id === voteState.owner ? (
             <Icon
               className={styles.iconButton}
@@ -69,16 +131,19 @@ const VoteInfo = (props) => {
               onClick={onSettingClick}
             />
           ) : null}
-          <CustomIcon
-            className={styles.iconButton}
-            style={{ marginTop: 2 }}
-            type="share2"
-            role="button"
-            aria-label="icon share"
-            onClick={() => {
-              console.log('click icon');
-            }}
-          />
+          {voteState.owner === userState._id ? (
+            <CustomIcon
+              className={styles.iconButton}
+              style={{ marginTop: 2 }}
+              type="share2"
+              role="button"
+              aria-label="icon share"
+              onClick={() => {
+                console.log('click icon');
+                setVisibleDrawer(true);
+              }}
+            />
+          ) : null}
         </div>
       </div>
       <div className={styles.title}>{voteState.title}</div>
@@ -138,6 +203,103 @@ const VoteInfo = (props) => {
           </Col>
         </Row>
       </div>
+      <Drawer
+        className={styles.drawer}
+        title="分享投票"
+        placement="right"
+        visible={visibleDrawer}
+        closeable="mask,esc"
+        onClose={() => {
+          setVisibleDrawer(false);
+        }}
+        headerStyle={{ border: 0, marginTop: 8 }}
+      >
+        <div className={styles.drawerSubhead}>
+          <div className={styles.drawerSubheadLeft}>
+            <CustomIcon
+              type="round_link_fill"
+              size="xl"
+              className={styles.linkIcon}
+            />
+            分享链接
+          </div>
+          <Switch
+            checked={voteState.share && voteState.share.active}
+            size="small"
+            onClick={() => {
+              activeRequest(id, { active: !voteState.share.active });
+            }}
+          />
+        </div>
+        {voteState.share && voteState.share.active ? (
+          <div>
+            <Form
+              labelAlign="top"
+              value={{
+                link:
+                  voteState.share &&
+                  `http://localhost:3333/#/vote/share/${voteState._id}?uuid=${voteState.share.uuid}`,
+              }}
+            >
+              <Form.Item>
+                <Input
+                  name="link"
+                  placeholder="点击下方按钮生成链接"
+                  addonAfter={
+                    <CopyToClipboard
+                      text={
+                        voteState.share &&
+                        `http://localhost:3333/#/vote/share/${voteState._id}?uuid=${voteState.share.uuid}`
+                      }
+                      onCopy={() => {
+                        Message.success('复制成功');
+                      }}
+                    >
+                      <Button>复制</Button>
+                    </CopyToClipboard>
+                  }
+                />
+              </Form.Item>
+            </Form>
+            <Button
+              loading={loading}
+              style={{ display: 'block', margin: '0 auto' }}
+              onClick={popupConfirm}
+            >
+              重置分享链接
+            </Button>
+          </div>
+        ) : null}
+        <div className={styles.drawerSubhead}>
+          <div className={styles.drawerSubheadLeft}>
+            <CustomIcon
+              type="person_circle_fill"
+              size="xl"
+              className={styles.memberIcon}
+            />
+            投票成员
+          </div>
+        </div>
+        <List size="small" className={styles.memberList}>
+          {voteState.votersInfo &&
+            voteState.votersInfo.map((voter) => {
+              return (
+                <List.Item
+                  key={voter._id}
+                  extra={
+                    voter._id === voteState.owner ? (
+                      <div className={styles.status}>发起</div>
+                    ) : (
+                      <div className={styles.status}>参与</div>
+                    )
+                  }
+                  title={voter.userName}
+                  media={<Avatar src={voter.avatar} />}
+                />
+              );
+            })}
+        </List>
+      </Drawer>
     </div>
   );
 };

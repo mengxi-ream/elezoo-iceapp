@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRequest, useHistory } from 'ice';
+import { useRequest, useHistory, store } from 'ice';
 import { store as pageStore } from 'ice/Vote';
 import {
   Button,
@@ -14,6 +14,7 @@ import {
   Loading,
   Icon,
   Tag,
+  Box,
 } from '@alifd/next';
 import PageTab from '@/components/PageTab';
 import SubmitBtn from '@/components/SubmitBtn';
@@ -24,7 +25,7 @@ import styles from './index.module.scss';
 const CustomIcon = DynamicIcon.create({
   fontFamily: 'iconfont',
   prefix: 'icon',
-  css: 'https://at.alicdn.com/t/font_1969578_5fz0k52q28e.css',
+  css: 'https://at.alicdn.com/t/font_1969578_z8tm4vu9r6f.css',
 });
 
 const { Cell } = ResponsiveGrid;
@@ -60,6 +61,7 @@ const MyVote = () => {
 
   const history = useHistory();
   const [voteState, voteDispatchers] = pageStore.useModel('vote');
+  const [userState, userDispathers] = store.useModel('user');
   const [device, setDevice] = useState(getDevice(NaN));
   const { data, loading, request } = useRequest(voteService.getVotes, {
     onSuccess: async (result) => {
@@ -90,89 +92,112 @@ const MyVote = () => {
     <Card free>
       <Card.Content className={styles.pageBlock}>
         <Loading visible={loading}>
-          {voteState.items.map((item) => {
-            return (
-              <Card
-                className={styles.card}
-                free
-                key={item._id}
-                onClick={() => {
-                  history.push(`/vote/${item.period}/${item._id}`);
-                  // if (item.period === 'notStarted') {
-                  //   history.push(`/vote/notstarted/${item._id}`);
-                  // } else if (item.period === 'proposing') {
-                  //   history.push(`/vote/propose/${item._id}`);
-                  // }
-                  console.log('click card');
-                }}
-              >
-                <Card.Media className={styles.cardMedia}>
-                  <img
-                    className={styles.cardMedia}
-                    src={item.cover ? item.cover : 'public/logo/defaultBG.png'}
-                  />
-                </Card.Media>
-                <div className={styles.cardMain}>
-                  <Card.Header
-                    title={item.title}
-                    extra={
-                      <CustomIcon
-                        className={styles.iconButton}
-                        type="share2"
-                        size="small"
-                        role="button"
-                        aria-label="icon share"
-                        onClick={(e) => {
-                          console.log('click icon');
-                          // 首先 icon 的 z-index 本身就比 card 高
-                          // 我们先触发 icon 的 onclick 之后直接 stopPropagation 就可以防止触发 card 的 onclick
-                          e.stopPropagation();
-                        }}
-                      />
-                    }
-                  />
-                  <Card.Content>
-                    <div className={styles.tag}>
-                      <Tag
-                        type="primary"
-                        color={periodColors[item.period]}
-                        size="small"
-                      >
-                        {periodLabels[item.period]}
-                      </Tag>
-                      <Avatar
-                        className={styles.privacyOption}
+          {!loading && voteState.items.length === 0 ? (
+            <Card
+              free
+              className={styles.card}
+              onClick={() => {
+                history.push(`/quick`);
+                console.log('click card');
+              }}
+            >
+              <Card.Media className={styles.cardMedia}>
+                <img
+                  className={styles.cardMedia}
+                  src="public/logo/defaultBG.png"
+                />
+              </Card.Media>
+              <Box className={styles.add} justify="center" align="center">
+                <Icon type="add" size="xl" className={styles.addIcon} />
+                点击添加投票
+              </Box>
+            </Card>
+          ) : (
+            <div>
+              {voteState.items.map((item) => {
+                return (
+                  <Card
+                    className={styles.card}
+                    free
+                    key={item._id}
+                    onClick={() => {
+                      history.push(`/vote/${item.period}/${item._id}`);
+                      console.log('click card');
+                    }}
+                  >
+                    <Card.Media className={styles.cardMedia}>
+                      <img
+                        className={styles.cardMedia}
                         src={
-                          item.ownerInfo
-                            ? item.ownerInfo.avatar
-                            : 'public/icon/anonymously.png'
+                          item.cover ? item.cover : 'public/logo/defaultBG.png'
                         }
                       />
+                    </Card.Media>
+                    <div className={styles.cardMain}>
+                      <Card.Header
+                        title={item.title}
+                        extra={
+                          item.owner === userState._id ? (
+                            <CustomIcon
+                              className={styles.iconButton}
+                              type="share2"
+                              size="small"
+                              role="button"
+                              aria-label="icon share"
+                              onClick={(e) => {
+                                console.log('click icon');
+                                // 首先 icon 的 z-index 本身就比 card 高
+                                // 我们先触发 icon 的 onclick 之后直接 stopPropagation 就可以防止触发 card 的 onclick
+                                e.stopPropagation();
+                              }}
+                            />
+                          ) : null
+                        }
+                      />
+                      <Card.Content>
+                        <div className={styles.tag}>
+                          <Tag
+                            type="primary"
+                            color={periodColors[item.period]}
+                            size="small"
+                          >
+                            {periodLabels[item.period]}
+                          </Tag>
+                          <Avatar
+                            className={styles.privacyOption}
+                            src={
+                              item.ownerInfo
+                                ? item.ownerInfo.avatar
+                                : 'public/icon/anonymously.png'
+                            }
+                          />
+                        </div>
+                        <div className={styles.detail}>{item.detail}</div>
+                        <div className={styles.time}>
+                          <div className={styles.timeItem}>
+                            <span className={styles.timeUnder}>提议截止</span>：
+                            {item.voteStart
+                              ? device === 'phone'
+                                ? item.voteStart.slice(5, 10)
+                                : item.voteStart.slice(0, 10)
+                              : '待定'}
+                          </div>{' '}
+                          <div className={styles.timeItem}>
+                            <span className={styles.timeUnder}>投票截止</span>：
+                            {item.voteEnd
+                              ? device === 'phone'
+                                ? item.voteEnd.slice(5, 10)
+                                : item.voteEnd.slice(0, 10)
+                              : '待定'}
+                          </div>
+                        </div>
+                      </Card.Content>
                     </div>
-                    <div className={styles.detail}>{item.detail}</div>
-                    <div className={styles.time}>
-                      <div className={styles.timeItem}>
-                        <span className={styles.timeUnder}>提议截止</span>：
-                        {item.voteStart
-                          ? device === 'phone'
-                            ? item.voteStart.slice(5, 10)
-                            : item.voteStart.slice(0, 10)
-                          : '待定'}
-                      </div>{' '}
-                      <div className={styles.timeItem}>
-                        <span className={styles.timeUnder}>投票截止</span>：
-                        {item.voteEnd
-                          ? device === 'phone'
-                            ? item.voteEnd.slice(5, 10)
-                            : item.voteEnd.slice(0, 10)
-                          : '待定'}
-                      </div>
-                    </div>
-                  </Card.Content>
-                </div>
-              </Card>
-            );
-          })}
+                  </Card>
+                );
+              })}
+            </div>
+          )}
         </Loading>
       </Card.Content>
     </Card>

@@ -33,3 +33,40 @@
 .under {
   border-bottom: 2px solid $color-brand1-1;
 }
+
+.drawer {
+  width: 300px;
+  .linkIcon {
+    margin-right: 8px;
+    color: $color-link-1;
+  }
+  .memberIcon {
+    margin-right: 8px;
+    color: $color-other-2;
+  }
+}
+
+.drawerSubhead {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: $font-size-body-2;
+  margin-bottom: 16px;
+  .drawerSubheadLeft {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.drawerSubhead:first-child {
+  margin-top: 0;
+}
+
+.memberList {
+  margin: -8px 2px 0 2px;
+}
+
+.status {
+  margin: auto 0;
+}

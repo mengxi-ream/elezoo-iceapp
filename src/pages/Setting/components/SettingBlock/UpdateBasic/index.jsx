@@ -26,8 +26,10 @@ const UpdateBasic = () => {
       await userDispatchers.fetchUserInfo();
       Message.success('更新成功');
     },
-    onError: () => {
-      Message.error('更新失败');
+    onError: (err) => {
+      err.response
+        ? Message.error(err.response.data.message)
+        : Message.error('更新失败');
     },
   });
   // const [postData, setValue] = useState({

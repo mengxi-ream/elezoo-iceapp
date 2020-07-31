@@ -86,9 +86,12 @@ const VoteNotStartedBlock = () => {
     <Card free>
       <Card.Content className={styles.votePageBlock}>
         <Loading visible={loading}>
-          <VoteInfo voteState={voteState} />
+          <VoteInfo/>
           {voteState.owner && voteState.owner === userState._id ? (
             <div>
+              <div className={styles.middleBlock} />
+              🎉恭喜您在<span className={styles.elezoo}> Elezoo </span>
+              成功创建了一个提议性投票，🥳投票的参与者可以对投票选项进行提议，并且这里有丰富的隐私设置供您选择。请点击下面的按钮开始提议。
               <div className={styles.middleBlock} />
               <Button
                 type="secondary"
@@ -102,7 +105,11 @@ const VoteNotStartedBlock = () => {
               </Button>
             </div>
           ) : (
-            ''
+            <div>
+              <div className={styles.middleBlock} />
+              🎉恭喜您在<span className={styles.elezoo}> Elezoo </span>
+              成功加入了一个提议性投票，🥳投票的参与者可以对投票选项进行提议，并且这里有丰富的隐私设置供您选择。请等待投票发起人邀请您进入提议环节。
+            </div>
           )}
         </Loading>
       </Card.Content>

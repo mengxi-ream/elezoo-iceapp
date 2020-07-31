@@ -26,6 +26,16 @@ export default {
     });
     rawData.hasVoted = hasVoted;
     // add more user info
+    // voter info
+    let votersInfo = [];
+    for (let idx = 0; idx < rawData.voters.length; idx++) {
+      let voterInfo = await request({
+        url: `user/${rawData.voters[idx]}`,
+      });
+      votersInfo.push(voterInfo);
+    }
+    rawData.votersInfo = votersInfo;
+    // proposer, supporter info
     let totalVotes = 0;
     for (let idx = 0; idx < rawData.proposals.length; idx++) {
       rawData.proposals[idx].idx = idx + 1;
@@ -152,6 +162,21 @@ export default {
     return await request({
       url: `/vote/basic/${_id}`,
       method: 'put',
+      data: payload,
+    });
+  },
+
+  async resetShareId(_id) {
+    return await request({
+      url: `/vote/resetshareid/${_id}`,
+      method: 'patch',
+    });
+  },
+
+  async shareActive(_id, payload) {
+    return await request({
+      url: `/vote/share/${_id}`,
+      method: 'patch',
       data: payload,
     });
   },
