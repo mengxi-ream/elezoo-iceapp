@@ -9,6 +9,7 @@ import VotePropose from '@/pages/VotePropose';
 import VoteVote from '@/pages/VoteVote';
 import UpdateVote from '@/pages/UpdateVote';
 import QuickCreate from '@/pages/QuickCreate';
+import Share from '@/pages/Share';
 
 const routerConfig = [
   {
@@ -18,6 +19,10 @@ const routerConfig = [
       {
         path: '/login',
         component: Login,
+      },
+      {
+        path: '/register/:id',
+        component: Register,
       },
       {
         path: '/register',
@@ -38,6 +43,7 @@ const routerConfig = [
       { path: '/voting/:id', exact: true, component: VoteVote },
       { path: '/end/:id', exact: true, component: VoteVote },
       { path: '/update/:id', exact: true, component: UpdateVote },
+      { path: '/share/:id', component: Share },
       {
         path: '/',
         redirect: '/',

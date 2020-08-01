@@ -75,12 +75,52 @@ const VoteInfo = (props) => {
     },
   });
 
+  const { request: leaveRequest } = useRequest(voteDetailService.leave, {
+    onSuccess: () => {
+      Message.success('离开投票成功');
+      history.push('/');
+    },
+    onError: () => {
+      Message.error('离开投票失败');
+    },
+  });
+
+  const { request: destroyRequest } = useRequest(voteDetailService.destroy, {
+    onSuccess: () => {
+      Message.success('删除投票成功');
+      history.push('/');
+    },
+    onError: () => {
+      Message.error('删除投票失败');
+    },
+  });
+
   const onSettingClick = () => {
     history.push(`/vote/update/${id}`);
     // console.log(id);
   };
 
-  const popupConfirm = () => {
+  const leaveConfirm = () => {
+    Dialog.confirm({
+      title: '确认',
+      content: '你确定要离开投票吗？',
+      onOk: () => {
+        leaveRequest(id);
+      },
+    });
+  };
+
+  const destroyConfirm = () => {
+    Dialog.confirm({
+      title: '确认',
+      content: '你确定要删除投票吗？',
+      onOk: () => {
+        destroyRequest(id);
+      },
+    });
+  };
+
+  const resetConfirm = () => {
     Dialog.confirm({
       title: '确认',
       content: '重置链接将导致之前的链接失效',
@@ -106,9 +146,7 @@ const VoteInfo = (props) => {
               type="exit"
               role="button"
               aria-label="icon exit"
-              onClick={() => {
-                console.log('click icon');
-              }}
+              onClick={leaveConfirm}
             />
           ) : null}
           {userState._id === voteState.owner ? (
@@ -117,9 +155,7 @@ const VoteInfo = (props) => {
               type="ashbin"
               role="button"
               aria-label="icon ashbin"
-              onClick={() => {
-                console.log('click icon');
-              }}
+              onClick={destroyConfirm}
             />
           ) : null}
           {userState._id === voteState.owner ? (
@@ -264,7 +300,7 @@ const VoteInfo = (props) => {
             <Button
               loading={loading}
               style={{ display: 'block', margin: '0 auto' }}
-              onClick={popupConfirm}
+              onClick={resetConfirm}
             >
               重置分享链接
             </Button>

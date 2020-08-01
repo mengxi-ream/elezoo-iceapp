@@ -3,6 +3,8 @@ import { createApp, history } from 'ice';
 const appConfig = {
   app: {
     rootId: 'ice-container',
+    // 可选，是否解析路由组件的查询参数
+    parseSearchParams: true,
   },
   request: [
     {
@@ -14,7 +16,8 @@ const appConfig = {
             // console.log('config', config);
             if (
               localStorage.hasOwnProperty('jwt-token') === false &&
-              config.url !== '/user/create'
+              config.url !== '/user/create' &&
+              config.url !== '/vote/accept'
             ) {
               history.push('/user/login');
             }

@@ -180,4 +180,25 @@ export default {
       data: payload,
     });
   },
+
+  async acceptShare(_id, uuid) {
+    return await request({
+      url: `/vote/accept/${_id}?uuid=${uuid}`,
+      method: 'patch',
+    });
+  },
+
+  async leave(_id) {
+    return await request({
+      url: `/vote/leave/${_id}`,
+      method: 'patch',
+    });
+  },
+
+  async destroy(_id) {
+    return await request({
+      url: `/vote/${_id}`,
+      method: 'delete',
+    });
+  },
 };

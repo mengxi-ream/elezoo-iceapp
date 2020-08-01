@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { useRequest, store, history } from 'ice';
+import { useRequest, store, useHistory, useParams, useSearchParams } from 'ice';
 import PropTypes from 'prop-types';
 import { Input, Message, Form } from '@alifd/next';
 import SubmitBtn from '@/components/SubmitBtn';
 import userService from '@/services/user';
+import voteDetailService from '@/services/voteDetail';
 import styles from './index.module.scss';
 
 const { Item } = Form;
 
 export default function RegisterBlock() {
+  const history = useHistory();
+  const { id } = useParams();
+  const { uuid } = useSearchParams();
   const [postData, setValue] = useState({
     userName: '',
     email: '',
@@ -16,6 +20,20 @@ export default function RegisterBlock() {
     rePassword: '',
   });
   const dispatchers = store.useModelDispatchers('user');
+  const { request: acceptRequest } = useRequest(voteDetailService.acceptShare, {
+    onSuccess: async (result) => {
+      console.log(result);
+      console.log(`/vote/${result.period}/${id}`);
+      history.push(`/vote/${result.period}/${id}`);
+      Message.success('加载成功');
+    },
+    onError: (err) => {
+      err.response
+        ? Message.error(err.response.data.message)
+        : Message.error('加载失败');
+      history.push('/');
+    },
+  });
   const { data, loading, request } = useRequest(userService.createUser, {
     onSuccess: async (result, params) => {
       // console.log('result:', result);
@@ -23,6 +41,7 @@ export default function RegisterBlock() {
       const userInfo = params[0];
       // 欺骗拦截器不要跳转到 /user/login 界面
       localStorage.setItem('jwt-token', 'tempToken');
+      // console.log(token);
       const res = await userService.getToken({
         account: userInfo.userName,
         password: userInfo.password,
@@ -31,7 +50,13 @@ export default function RegisterBlock() {
       console.log(token);
       localStorage.setItem('jwt-token', token);
       await dispatchers.fetchUserInfo();
-      history.push('/');
+      // console.log('ids', id, uuid);
+      if (id && uuid) {
+        await acceptRequest(id, uuid);
+      } else {
+        history.push('/');
+      }
+      // history.push('/');
       Message.success('注册成功');
     },
     onError: (err) => {
