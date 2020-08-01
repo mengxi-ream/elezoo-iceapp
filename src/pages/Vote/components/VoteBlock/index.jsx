@@ -4,7 +4,6 @@ import { Tab } from '@alifd/next';
 import PageTab from '@/components/PageTab';
 import MyVote from './MyVote';
 import CreateVote from './CreateVote';
-import JoinVote from './JoinVote';
 
 const VoteBlock = () => {
   const [voteState, voteDispatchers] = pageStore.useModel('vote');

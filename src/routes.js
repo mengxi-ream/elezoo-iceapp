@@ -12,6 +12,7 @@ import QuickCreate from '@/pages/QuickCreate';
 import Share from '@/pages/Share';
 import Forget from '@/pages/Forget';
 import Reset from '@/pages/Reset';
+import Search from '@/pages/Search';
 
 const routerConfig = [
   {
@@ -54,6 +55,7 @@ const routerConfig = [
       { path: '/end/:id', exact: true, component: VoteVote },
       { path: '/update/:id', exact: true, component: UpdateVote },
       { path: '/share/:id', component: Share },
+      { path: '/search', component: Search },
       {
         path: '/',
         redirect: '/',

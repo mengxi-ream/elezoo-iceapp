@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 const CustomIcon = DynamicIcon.create({
   fontFamily: 'iconfont',
   prefix: 'icon',
-  css: 'https://at.alicdn.com/t/font_1969578_z8tm4vu9r6f.css',
+  css: 'https://at.alicdn.com/t/font_1969578_v7k955ft6b9.css',
 });
 
 const { Item } = Menu;

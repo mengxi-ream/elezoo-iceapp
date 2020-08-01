@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useRequest, useHistory, store } from 'ice';
-import { store as pageStore } from 'ice/Vote';
+import { useRequest, useHistory, store, useSearchParams } from 'ice';
+import { store as pageStore } from 'ice/Search';
 import {
   Button,
   Card,
@@ -14,13 +14,11 @@ import {
   Icon,
   Tag,
   Box,
-  Dropdown,
-  Menu,
   Pagination,
 } from '@alifd/next';
 import PageTab from '@/components/PageTab';
 import SubmitBtn from '@/components/SubmitBtn';
-import voteService from '@/pages/Vote/services/vote';
+import voteService from '@/pages/Search/services/vote';
 import DynamicIcon from '@icedesign/dynamic-icon';
 import styles from './index.module.scss';
 
@@ -31,7 +29,6 @@ const CustomIcon = DynamicIcon.create({
 });
 
 const { Cell } = ResponsiveGrid;
-const { Item, Group, Divider, CheckboxItem, RadioItem } = Menu;
 const periodLabels = {
   notStarted: '未开始',
   proposing: '提议中',
@@ -44,23 +41,8 @@ const periodColors = {
   voting: 'orange',
   end: '#E2E4E8',
 };
-const roleItems = [
-  { label: '我发起', name: 'owner' },
-  { label: '他人发起', name: 'notOwner' },
-];
-const periodItems = [
-  { label: '未开始', name: 'notStarted' },
-  { label: '提议中', name: 'proposing' },
-  { label: '投票中', name: 'voting' },
-  { label: '已结束', name: 'end' },
-];
-const privacyItems = [
-  { label: '实名', name: 'realName' },
-  { label: '自由', name: 'free' },
-  { label: '匿名', name: 'anonymity' },
-];
 
-const MyVote = () => {
+const SearchBlock = () => {
   // get device
   const getDevice = (width) => {
     const isPhone =
@@ -78,6 +60,7 @@ const MyVote = () => {
   };
 
   const history = useHistory();
+  const { content } = useSearchParams();
   const [voteState, voteDispatchers] = pageStore.useModel('vote');
   const [userState, userDispathers] = store.useModel('user');
   const [device, setDevice] = useState(getDevice(NaN));
@@ -91,8 +74,6 @@ const MyVote = () => {
     realName: true,
     free: true,
     anonymity: true,
-    title: 0,
-    createAt: -1,
   });
   const { data, loading, request } = useRequest(voteService.getVotes, {
     onSuccess: async (result) => {
@@ -109,10 +90,12 @@ const MyVote = () => {
   });
 
   useEffect(() => {
+    console.log(content);
     request({
       ...selectData,
       current: voteState.current,
       pageSize: voteState.pageSize,
+      searchContent: content,
     });
   }, [voteState.fetchTrigger]);
 
@@ -124,161 +107,22 @@ const MyVote = () => {
     });
   }
 
-  const handleFilterChange = (field) => {
-    setSelectData({ ...selectData, [field]: !selectData[field] });
-  };
-
-  const handleSelectChange = (field, value) => {
-    const origin = { title: 0, createAt: 0 };
-    setSelectData({ ...selectData, ...origin, [field]: value });
-  };
-
-  const onSelectChange = (visible) => {
-    if (!visible) {
-      voteDispatchers.updateCurrent(1);
-      request({ ...selectData, current: 1, pageSize: voteState.pageSize });
-    }
-  };
-
   const handleCurrentChange = (current) => {
     voteDispatchers.updateCurrent(current);
     request({
       ...selectData,
       current: current,
       pageSize: voteState.pageSize,
+      searchContent: content,
     });
-  };
-
-  const FliterMenu = () => {
-    return (
-      <Menu>
-        <Group label="发起人">
-          {roleItems.map(({ label, name }) => (
-            <CheckboxItem
-              key={name}
-              checked={selectData[name]}
-              onChange={() => handleFilterChange(name)}
-            >
-              {label}
-            </CheckboxItem>
-          ))}
-        </Group>
-        <Divider />
-        <Group label="进程">
-          {periodItems.map(({ label, name }) => (
-            <CheckboxItem
-              key={name}
-              checked={selectData[name]}
-              onChange={() => handleFilterChange(name)}
-            >
-              {label}
-            </CheckboxItem>
-          ))}
-        </Group>
-        <Divider />
-        <Group label="匿名方式">
-          {privacyItems.map(({ label, name }) => (
-            <CheckboxItem
-              key={name}
-              checked={selectData[name]}
-              onChange={() => handleFilterChange(name)}
-            >
-              {label}
-            </CheckboxItem>
-          ))}
-        </Group>
-      </Menu>
-    );
-  };
-
-  const SortMenu = () => {
-    return (
-      <Menu>
-        <Group label="降序">
-          <RadioItem
-            checked={selectData.createAt === -1}
-            onChange={() => handleSelectChange('createAt', -1)}
-          >
-            创建时间
-          </RadioItem>
-          <RadioItem
-            checked={selectData.title === -1}
-            onChange={() => handleSelectChange('title', -1)}
-          >
-            投票名称
-          </RadioItem>
-        </Group>
-        <Divider />
-        <Group label="升序">
-          <RadioItem
-            checked={selectData.createAt === 1}
-            onChange={() => handleSelectChange('createAt', 1)}
-          >
-            创建时间
-          </RadioItem>
-          <RadioItem
-            checked={selectData.title === 1}
-            onChange={() => handleSelectChange('title', 1)}
-          >
-            投票名称
-          </RadioItem>
-        </Group>
-      </Menu>
-    );
   };
 
   return (
     <Card free>
       <Card.Content className={styles.pageBlock}>
-        <div className={styles.hellowContainer}>
-          <div className={styles.hellowLeft}>
-            <Avatar
-              size="large"
-              src={'public/icon/cat.svg'}
-              style={{ marginRight: 8 }}
-            />
-            <div>Hi, 今天过的怎么样?</div>
-          </div>
-          <div className={styles.hellowRight}>
-            <Dropdown
-              trigger={<Icon type="sorting" className={styles.hellowButton} />}
-              triggerType="click"
-              align="tr br"
-              onVisibleChange={onSelectChange}
-            >
-              <SortMenu />
-            </Dropdown>
-            <Dropdown
-              trigger={<Icon type="filter" className={styles.hellowButton} />}
-              triggerType="click"
-              align="tr br"
-              onVisibleChange={onSelectChange}
-            >
-              <FliterMenu />
-            </Dropdown>
-          </div>
-        </div>
         <Loading visible={loading}>
           {!loading && voteState.items.length === 0 ? (
-            <Card
-              free
-              className={styles.card}
-              onClick={() => {
-                history.push(`/quick`);
-                console.log('click card');
-              }}
-            >
-              <Card.Media className={styles.cardMedia}>
-                <img
-                  className={styles.cardMedia}
-                  src="public/logo/defaultBG.png"
-                />
-              </Card.Media>
-              <Box className={styles.add} justify="center" align="center">
-                <Icon type="add" size="xl" className={styles.addIcon} />
-                点击添加投票
-              </Box>
-            </Card>
+            <div style={{ textAlign: 'center' }}>抱歉！没有你要找的投票。</div>
           ) : (
             <div>
               {voteState.items.map((item) => {
@@ -382,4 +226,4 @@ const MyVote = () => {
   );
 };
 
-export default MyVote;
+export default SearchBlock;

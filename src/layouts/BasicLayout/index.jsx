@@ -57,6 +57,10 @@ export default function BasicLayout({ children }) {
     });
   }
 
+  const handleSearch = (value) => {
+    history.push(`/vote/search?content=${value}`);
+  };
+
   return (
     <ConfigProvider device={device}>
       <Shell
@@ -91,7 +95,12 @@ export default function BasicLayout({ children }) {
           >
             我的投票
           </div>
-          <Search shape="simple" placeholder="Search" style={{ width: 232 }} />
+          <Search
+            shape="simple"
+            placeholder="Search"
+            style={{ width: 232 }}
+            onSearch={handleSearch}
+          />
         </Shell.Navigation>
         <Shell.Action>
           <HeaderAvatar />

@@ -1,15 +1,6 @@
 import { request } from 'ice';
 
 export default {
-  async createVote(payload) {
-    const rawData = await request({
-      url: '/vote/create',
-      method: 'post',
-      data: payload,
-    });
-    rawData.period = await request({ url: `/vote/period/${rawData._id}` });
-    return rawData;
-  },
   async getVotes(payload) {
     console.log('-----', payload);
     const rawData = await request({
