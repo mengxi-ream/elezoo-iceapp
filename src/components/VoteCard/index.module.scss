@@ -1,0 +1,129 @@
+@import '~@alifd/next/variables.scss';
+
+.pageBlock {
+  max-width: 568px;
+  min-width: 280px;
+  min-height: 460px;
+  margin: $s-10 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  :global {
+    .next-loading {
+      width: 100%;
+    }
+  }
+}
+
+.card {
+  display: flex;
+  // justify-content: space-between;
+  width: 100% !important;
+  height: 180px;
+  margin-bottom: 36px;
+  box-shadow: 0px 2px 8px #e2e2e2;
+  position: relative;
+  top: 0;
+  transition: all 0.3s;
+  cursor: pointer;
+  :global {
+    .next-card-header-title {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.card:hover {
+  top: -3px;
+}
+
+.card:last-child {
+  margin-bottom: 0;
+}
+
+.cardMedia {
+  width: 180px;
+  height: 180px;
+}
+
+.cardMain {
+  width: 100%;
+  background-image: url('../../../public/logo/elezooBack.png');
+  background-repeat: no-repeat;
+  background-position: 50% 115%;
+  background-size: 85%;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+}
+
+.privacyOption {
+  margin-left: 8px;
+  height: 20px;
+  width: 20px;
+}
+
+.detail {
+  margin: 8px auto 4px;
+  height: 64px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.time {
+  display: flex;
+  .timeItem {
+    width: 50%;
+  }
+  .timeUnder {
+    border-bottom: 2px solid $color-brand1-1;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .cardMedia {
+    width: 0;
+  }
+}
+
+.iconButton:hover {
+  color: $color-brand1-6;
+}
+
+.add {
+  width: 100%;
+  height: 180px;
+  .addIcon {
+    margin-bottom: 16px;
+  }
+}
+
+.hellowContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  .hellowLeft {
+    display: flex;
+    align-items: center;
+    font-size: $font-size-subhead;
+    font-weight: bold;
+  }
+  .hellowRight {
+    display: flex;
+    align-items: center;
+    .hellowButton {
+      margin-left: 16px;
+      cursor: pointer;
+    }
+    .hellowButton:hover {
+      color: $color-brand1-6;
+    }
+  }
+}
