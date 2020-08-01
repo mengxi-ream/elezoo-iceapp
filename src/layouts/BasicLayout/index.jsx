@@ -59,6 +59,8 @@ export default function BasicLayout({ children }) {
 
   const handleSearch = (value) => {
     history.push(`/vote/search?content=${value}`);
+    // force to re-render
+    history.go();
   };
 
   return (

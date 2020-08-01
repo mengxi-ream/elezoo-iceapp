@@ -90,8 +90,8 @@ const VoteVoteBlock = () => {
         // history.push(`/vote/voting/${id}`);
         // await voteDispatchers.updatePeriod('end');
         await voteDetailService.getVote(id);
-        history.push('/vote/voting/');
-        history.replace(`/vote/voting/${id}`);
+        history.push(`/vote/voting/${id}`);
+        history.go();
         Message.success('成功结束投票');
       },
       onError: (err) => {
