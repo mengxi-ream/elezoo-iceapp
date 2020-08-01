@@ -1,4 +1,5 @@
 import { request } from 'ice';
+import Forget from '@/pages/Forget';
 
 export default {
   async getCurrentUser() {
@@ -36,6 +37,22 @@ export default {
       url: '/user/password',
       method: 'put',
       data: { oldPassword, password },
+    });
+  },
+
+  async forget(payload) {
+    return await request({
+      url: '/user/forget',
+      method: 'patch',
+      data: payload,
+    });
+  },
+
+  async reset(_id, payload) {
+    return await request({
+      url: `/user/reset/${_id}`,
+      method: 'patch',
+      data: payload,
     });
   },
 };

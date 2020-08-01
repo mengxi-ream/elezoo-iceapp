@@ -17,7 +17,9 @@ const appConfig = {
             if (
               localStorage.hasOwnProperty('jwt-token') === false &&
               config.url !== '/user/create' &&
-              config.url !== '/vote/accept'
+              config.url !== '/vote/accept' &&
+              config.url !== '/user/forget' &&
+              !config.url.match('/user/reset')
             ) {
               history.push('/user/login');
             }

@@ -88,7 +88,7 @@ const LoginBlock = (props) => {
             </SubmitBtn>
           </Item>
           <p className={styles.infoLine}>
-            <a href="/" className={styles.link}>
+            <a href="/#/user/forget" className={styles.link}>
               忘记密码
             </a>
             <a href="/#/user/register" className={styles.link}>

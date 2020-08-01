@@ -182,7 +182,7 @@ const VoteProposeBlock = () => {
           <div>
             {voteState.proposals.map((proposal) => {
               return (
-                <div key={proposal.idx}>
+                <div key={proposal._id}>
                   <div className={styles.item}>
                     <div className={styles.itemLeft}>
                       <div className={styles.index}>{proposal.idx}. </div>

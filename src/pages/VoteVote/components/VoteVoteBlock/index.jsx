@@ -88,7 +88,9 @@ const VoteVoteBlock = () => {
       onSuccess: async (result) => {
         console.log(result);
         // history.push(`/vote/voting/${id}`);
-        await voteDispatchers.updatePeriod('end');
+        // await voteDispatchers.updatePeriod('end');
+        await voteDetailService.getVote(id);
+        history.push(`/vote/voting/${id}`)
         Message.success('成功结束投票');
       },
       onError: (err) => {

@@ -35,6 +35,12 @@
   justify-content: space-between;
   text-align: center;
   font-size: $font-size-body-2;
+  .input {
+    // This line is needed for Safari
+    display: flex;
+    flex: 1;
+    font-size: $font-size-subhead;
+  }
 }
 
 .itemLeft {
@@ -74,11 +80,6 @@
   .delete:hover {
     color: $color-brand1-6;
   }
-}
-
-.input {
-  flex: 1;
-  font-size: $font-size-subhead;
 }
 
 .btn {

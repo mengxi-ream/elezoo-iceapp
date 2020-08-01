@@ -10,6 +10,8 @@ import VoteVote from '@/pages/VoteVote';
 import UpdateVote from '@/pages/UpdateVote';
 import QuickCreate from '@/pages/QuickCreate';
 import Share from '@/pages/Share';
+import Forget from '@/pages/Forget';
+import Reset from '@/pages/Reset';
 
 const routerConfig = [
   {
@@ -19,6 +21,14 @@ const routerConfig = [
       {
         path: '/login',
         component: Login,
+      },
+      {
+        path: '/forget',
+        component: Forget,
+      },
+      {
+        path: '/reset/:id',
+        component: Reset,
       },
       {
         path: '/register/:id',

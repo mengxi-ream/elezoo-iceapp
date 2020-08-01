@@ -1,0 +1,78 @@
+@import '~@alifd/next/variables.scss';
+
+.LoginBlock {
+  width: 100%;
+  height: 100%;
+  //   padding: 40px;
+}
+
+.innerBlock {
+  width: 356px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 450px) {
+  .innerBlock {
+    width: 280px;
+  }
+}
+
+@media screen and (max-width: 355px) {
+  .innerBlock {
+    width: 240px;
+  }
+}
+
+.title {
+  display: block;
+  height: $s-16;
+  text-align: center;
+  margin: 24px auto;
+}
+
+.explain {
+  color: $color-text1-3;
+  font-size: $font-size-subhead;
+  margin: 16px auto 56px;
+}
+
+.subtitle {
+  color: $color-text1-4;
+  font-size: $font-size-headline;
+  margin: 16px auto;
+}
+
+.infoLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  text-align: center;
+}
+
+.link {
+  color: $color-link-1;
+  font-size: $font-size-body-2;
+  text-align: left;
+}
+
+.submitBtn {
+  width: 100%;
+  //   box-shadow: 0px 0px 16px 0px rgba(1, 193, 178, 0.4);
+  //   box-shadow: 0px 0px 16px 0px rgba(1, 0, 0, 0.4);
+}
+
+.submitBtn:hover {
+  width: 100%;
+  //   box-shadow: 0px 0px 16px 0px rgba(1, 167, 154, 0.4);
+}
+
+.buttomBlock {
+  height: 96px;
+}
+
+@media screen and (max-height: 650px) {
+  .buttomBlock {
+    height: 48px;
+  }
+}
