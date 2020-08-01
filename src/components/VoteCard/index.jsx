@@ -15,7 +15,10 @@ import {
   Tag,
   Box,
   Pagination,
+  Balloon,
 } from '@alifd/next';
+import UserAvatar from '@/components/UserAvatar';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 // import voteService from '@/pages/Search/services/vote';
 import DynamicIcon from '@icedesign/dynamic-icon';
 import styles from './index.module.scss';
@@ -70,6 +73,67 @@ const VoteCard = ({ item }) => {
     });
   }
 
+  const ShareBalloon = () => {
+    return (
+      <Balloon
+        trigger={
+          <CustomIcon
+            className={styles.iconButton}
+            type="share2"
+            size="small"
+            role="button"
+            aria-label="icon share"
+            onClick={(e) => {
+              console.log('click icon');
+              // 首先 icon 的 z-index 本身就比 card 高
+              // 我们先触发 icon 的 onclick 之后直接 stopPropagation 就可以防止触发 card 的 onclick
+              e.stopPropagation();
+            }}
+          />
+        }
+        closable={false}
+      >
+        <div className={styles.drawerSubhead}>
+          <div className={styles.drawerSubheadLeft}>
+            <CustomIcon
+              type="round_link_fill"
+              size="xl"
+              className={styles.linkIcon}
+            />
+            分享链接
+          </div>
+        </div>
+        {item.share && item.share.active ? (
+          <div>
+            <Form
+              labelAlign="top"
+              value={{
+                link: `http://localhost:3333/#/vote/share/${item._id}?uuid=${item.share.uuid}`,
+              }}
+            >
+              <Form.Item>
+                <Input
+                  name="link"
+                  placeholder="点击下方按钮生成链接"
+                  addonAfter={
+                    <CopyToClipboard
+                      text={`http://localhost:3333/#/vote/share/${item._id}?uuid=${item.share.uuid}`}
+                      onCopy={() => {
+                        Message.success('复制成功');
+                      }}
+                    >
+                      <Button>复制</Button>
+                    </CopyToClipboard>
+                  }
+                />
+              </Form.Item>
+            </Form>
+          </div>
+        ) : null}
+      </Balloon>
+    );
+  };
+
   return (
     <Card
       className={styles.card}
@@ -90,20 +154,8 @@ const VoteCard = ({ item }) => {
         <Card.Header
           title={item.title}
           extra={
-            item.owner === userState._id ? (
-              <CustomIcon
-                className={styles.iconButton}
-                type="share2"
-                size="small"
-                role="button"
-                aria-label="icon share"
-                onClick={(e) => {
-                  console.log('click icon');
-                  // 首先 icon 的 z-index 本身就比 card 高
-                  // 我们先触发 icon 的 onclick 之后直接 stopPropagation 就可以防止触发 card 的 onclick
-                  e.stopPropagation();
-                }}
-              />
+            item.owner === userState._id && item.share && item.share.active ? (
+              <ShareBalloon />
             ) : null
           }
         />
@@ -112,13 +164,14 @@ const VoteCard = ({ item }) => {
             <Tag type="primary" color={periodColors[item.period]} size="small">
               {periodLabels[item.period]}
             </Tag>
-            <Avatar
+            <UserAvatar
               className={styles.privacyOption}
               src={
                 item.ownerInfo
                   ? item.ownerInfo.avatar
                   : 'public/icon/anonymously.png'
               }
+              userName={item.ownerInfo && item.ownerInfo.userName}
             />
           </div>
           <div className={styles.detail}>{item.detail}</div>

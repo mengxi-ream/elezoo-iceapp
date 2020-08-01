@@ -17,6 +17,7 @@ import {
   MenuButton,
   Dialog,
 } from '@alifd/next';
+import UserAvatar from '@/components/UserAvatar';
 import VoteInfo from '@/components/VoteInfo';
 import voteDetailService from '@/services/voteDetail';
 import styles from './index.module.scss';
@@ -190,13 +191,17 @@ const VoteProposeBlock = () => {
                     </div>
                     <div className={styles.itemRight}>
                       {voteState.showProposer ? (
-                        <Avatar
+                        <UserAvatar
                           size="small"
                           className={styles.proposer}
                           src={
                             proposal.proposerInfo
                               ? proposal.proposerInfo.avatar
                               : '/public/icon/anonymously.png'
+                          }
+                          userName={
+                            proposal.proposerInfo &&
+                            proposal.proposerInfo.userName
                           }
                         />
                       ) : null}

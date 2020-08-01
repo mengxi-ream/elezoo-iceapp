@@ -20,6 +20,7 @@ import {
   Animate,
   Dialog,
 } from '@alifd/next';
+import UserAvatar from '@/components/UserAvatar';
 import VoteInfo from '@/components/VoteInfo';
 import voteDetailService from '@/services/voteDetail';
 import SubmitButton from '@/components/SubmitBtn';
@@ -221,7 +222,7 @@ const VoteVoteBlock = () => {
                         </div>
                       ) : null}
                       {voteState.showProposer ? (
-                        <Avatar
+                        <UserAvatar
                           src={
                             proposal.proposerInfo
                               ? proposal.proposerInfo.avatar
@@ -229,6 +230,10 @@ const VoteVoteBlock = () => {
                           }
                           className={styles.proposer}
                           size="small"
+                          userName={
+                            proposal.proposerInfo &&
+                            proposal.proposerInfo.userName
+                          }
                         />
                       ) : null}
                     </div>
@@ -237,7 +242,7 @@ const VoteVoteBlock = () => {
                     <div className={styles.avatarGroup}>
                       {proposal.votes.map((vote) => {
                         return (
-                          <Avatar
+                          <UserAvatar
                             key={vote._id}
                             size="small"
                             className={styles.supporterAvatar}
@@ -245,6 +250,9 @@ const VoteVoteBlock = () => {
                               vote.supporterInfo
                                 ? vote.supporterInfo.avatar
                                 : '/public/icon/anonymously.png'
+                            }
+                            userName={
+                              vote.supporterInfo && vote.supporterInfo.userName
                             }
                           />
                         );

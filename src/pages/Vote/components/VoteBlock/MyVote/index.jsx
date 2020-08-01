@@ -62,26 +62,9 @@ const privacyItems = [
 ];
 
 const MyVote = () => {
-  // get device
-  const getDevice = (width) => {
-    const isPhone =
-      typeof navigator !== 'undefined' &&
-      navigator &&
-      navigator.userAgent.match(/phone/gi);
-
-    if (width < 660 || isPhone) {
-      return 'phone';
-    }
-    if (width < 1280 && width > 660) {
-      return 'tablet';
-    }
-    return 'desktop';
-  };
-
   const history = useHistory();
   const [voteState, voteDispatchers] = pageStore.useModel('vote');
   const [userState, userDispathers] = store.useModel('user');
-  const [device, setDevice] = useState(getDevice(NaN));
   const [selectData, setSelectData] = useState({
     owner: true,
     notOwner: true,
@@ -116,14 +99,6 @@ const MyVote = () => {
       pageSize: voteState.pageSize,
     });
   }, [voteState.fetchTrigger]);
-
-  // get device
-  if (typeof window !== 'undefined') {
-    window.addEventListener('optimizedResize', (e) => {
-      const deviceWidth = (e && e.target && e.target.innerWidth) || NaN;
-      setDevice(getDevice(deviceWidth));
-    });
-  }
 
   const handleFilterChange = (field) => {
     setSelectData({ ...selectData, [field]: !selectData[field] });

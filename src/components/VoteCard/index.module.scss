@@ -1,19 +1,5 @@
 @import '~@alifd/next/variables.scss';
 
-.pageBlock {
-  max-width: 568px;
-  min-width: 280px;
-  min-height: 460px;
-  margin: $s-10 auto;
-  padding-left: 24px;
-  padding-right: 24px;
-  :global {
-    .next-loading {
-      width: 100%;
-    }
-  }
-}
-
 .card {
   display: flex;
   // justify-content: space-between;
@@ -96,34 +82,19 @@
   color: $color-brand1-6;
 }
 
-.add {
-  width: 100%;
-  height: 180px;
-  .addIcon {
-    margin-bottom: 16px;
-  }
-}
-
-.hellowContainer {
+.drawerSubhead {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
-  .hellowLeft {
+  font-size: $font-size-body-2;
+  margin-bottom: 16px;
+  .drawerSubheadLeft {
     display: flex;
     align-items: center;
-    font-size: $font-size-subhead;
-    font-weight: bold;
   }
-  .hellowRight {
-    display: flex;
-    align-items: center;
-    .hellowButton {
-      margin-left: 16px;
-      cursor: pointer;
-    }
-    .hellowButton:hover {
-      color: $color-brand1-6;
-    }
-  }
+}
+
+.linkIcon {
+  margin-right: 8px;
+  color: $color-link-1;
 }
