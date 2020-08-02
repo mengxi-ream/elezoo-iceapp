@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Less Icon</title>
+    <g id="Main-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="MacBook-Pro-13-进入投票" transform="translate(-696.000000, -583.000000)">
+            <g id="Group-10" transform="translate(346.000000, 317.000000)">
+                <g id="Group-7" transform="translate(0.000000, 237.000000)">
+                    <g id="Less-Icon" transform="translate(350.000000, 29.000000)">
+                        <circle id="Oval" stroke="#DCDEE3" fill="#F2F3F7" cx="10" cy="10" r="9.5"></circle>
+                        <g id="Icon-left-copy" transform="translate(10.000000, 10.000000) rotate(179.000000) translate(-10.000000, -10.000000) translate(7.000000, 6.000000)" fill="#DCDEE3" fill-rule="nonzero">
+                            <path d="M5.07095312,1.14780469 C5.32992187,0.888859375 5.33157812,0.4706875 5.07063281,0.20975 C4.81150781,-0.049375 4.38984375,-0.0478359375 4.13257812,0.209429688 L0.33425,4.00778125 L0.351171875,4.02469531 L0.35078125,4.02508594 L4.09932031,7.773625 C4.3611875,8.03549219 4.78627344,8.03496094 5.04760156,7.773625 C5.30945312,7.51177344 5.3094375,7.08719531 5.04758594,6.82534375 L2.22049219,3.99825 L5.07095312,1.14779687 L5.07095312,1.14780469 Z" id="Path"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

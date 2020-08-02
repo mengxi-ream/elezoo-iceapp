@@ -85,11 +85,21 @@
 }
 
 .avatarGroup {
+  display: flex;
   margin: 8px 0 -4px;
+}
+
+.supporter {
+  display: flex;
+  align-items: center;
 }
 
 .supporterAvatar {
   margin: 0 4px 4px 0;
+}
+
+.supporterName {
+  margin: 0 12px 3px 0;
 }
 
 .divider {

@@ -70,6 +70,7 @@ const VoteVoteBlock = () => {
   const [device, setDevice] = useState(getDevice(NaN));
   const [proposalIds, setProposalIds] = useState([]);
   const [proposalIdxs, setProposalIdxs] = useState([]);
+  const [showName, setShowName] = useState([]);
   const [userState, userDispatchers] = store.useModel('user');
   const [voteState, voteDispatchers] = store.useModel('voteDetail');
   const { data, loading, request } = useRequest(voteDetailService.getVote, {
@@ -193,6 +194,14 @@ const VoteVoteBlock = () => {
     });
   };
 
+  const handleNameShow = (_id) => {
+    setShowName({ ...showName, [_id]: true });
+  };
+
+  const handleNameHide = (_id) => {
+    setShowName({ ...showName, [_id]: false });
+  };
+
   const SubBlock = () => {
     return (
       <div>
@@ -242,21 +251,41 @@ const VoteVoteBlock = () => {
                     <div className={styles.avatarGroup}>
                       {proposal.votes.map((vote) => {
                         return (
-                          <UserAvatar
-                            key={vote._id}
-                            size="small"
-                            className={styles.supporterAvatar}
-                            src={
-                              vote.supporterInfo
-                                ? vote.supporterInfo.avatar
-                                : '/public/icon/anonymously.png'
-                            }
-                            userName={
-                              vote.supporterInfo && vote.supporterInfo.userName
-                            }
-                          />
+                          <div key={vote._id} className={styles.supporter}>
+                            <UserAvatar
+                              size="small"
+                              className={styles.supporterAvatar}
+                              src={
+                                vote.supporterInfo
+                                  ? vote.supporterInfo.avatar
+                                  : '/public/icon/anonymously.png'
+                              }
+                              userName={
+                                vote.supporterInfo &&
+                                vote.supporterInfo.userName
+                              }
+                            />
+                            {vote.supporterInfo && showName[proposal._id] ? (
+                              <div className={styles.supporterName}>
+                                {vote.supporterInfo.userName}
+                              </div>
+                            ) : null}
+                          </div>
                         );
-                      })}
+                      })}{' '}
+                      {showName[proposal._id] ? (
+                        <Avatar
+                          size="small"
+                          src={'public/icon/less.svg'}
+                          onClick={() => handleNameHide(proposal._id)}
+                        />
+                      ) : (
+                        <Avatar
+                          size="small"
+                          src={'public/icon/more.svg'}
+                          onClick={() => handleNameShow(proposal._id)}
+                        />
+                      )}
                     </div>
                   ) : (
                     ''
