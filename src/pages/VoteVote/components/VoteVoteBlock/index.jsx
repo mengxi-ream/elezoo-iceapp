@@ -265,9 +265,11 @@ const VoteVoteBlock = () => {
                                 vote.supporterInfo.userName
                               }
                             />
-                            {vote.supporterInfo && showName[proposal._id] ? (
+                            {showName[proposal._id] ? (
                               <div className={styles.supporterName}>
-                                {vote.supporterInfo.userName}
+                                {vote.supporterInfo
+                                  ? vote.supporterInfo.userName
+                                  : ''}
                               </div>
                             ) : null}
                           </div>

@@ -94,7 +94,6 @@ export default function RegisterBlock() {
   return (
     <div className={styles.RegisterBlock}>
       <div className={styles.innerBlock}>
-        {/* <div className={styles.title}>Elezoo</div> */}
         <img
           className={styles.title}
           src="/public/logo/textlogo.png"
