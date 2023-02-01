@@ -1,6 +1,6 @@
 ## Elezoo
 
-> 在 Elezoo 这个平台，任何小组可以发起倡议性投票，即投票参与人可以对投票选项进行提议。
+> Elezoo is an initiative voting platform, where voting participants can propose voting options
 
 ![screenshot](screenshot.png)
 
